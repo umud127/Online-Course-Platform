@@ -12,7 +12,7 @@ public interface ICourseService {
 
     DTOCourse getCourseById(Long id);
 
-    DTOCourse editCourse(DTOCourseIU dtoCourseIU, Long id);
+    DTOCourse editCourse(DTOCourseIU dtoCourseIU, MultipartFile file, Long id);
 
     void deleteCourse(Long id);
 

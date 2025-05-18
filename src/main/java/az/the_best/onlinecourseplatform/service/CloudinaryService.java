@@ -24,7 +24,7 @@ public class CloudinaryService {
             Map<?, ?> uploadResult = cloudinary.uploader().upload(file.getBytes(), ObjectUtils.emptyMap());
             return uploadResult.get("url").toString();
         } catch (IOException e) {
-            System.out.println("Error: " + e.getMessage() + ".... Programmer msg: image can't upload");
+            System.out.println("Error: " + e.getMessage() + ".... Progw2n't upload");
         }
 
         return null;

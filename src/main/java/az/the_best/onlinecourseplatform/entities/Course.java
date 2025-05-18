@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Table(name = "courses")
 @AllArgsConstructor
 @NoArgsConstructor
@@ -14,14 +16,21 @@ public class Course {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    Long id;
+    private Long id;
 
     @Column(name = "name")
-    String name;
+    private String name;
 
     @Column(name = "description")
-    String description;
+    private String description;
 
-    @Column(name = "image_url")
-    String imageUrl;
+    @Column(name = "cover_photo")
+    private String coverPhoto;
+
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+    private List<Comment> comment;
+
+    @ManyToOne
+    @JoinColumn(name = "user", insertable = false, updatable = false)
+    private User user;
 }

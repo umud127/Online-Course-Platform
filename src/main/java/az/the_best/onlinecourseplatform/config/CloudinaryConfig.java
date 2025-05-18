@@ -15,11 +15,6 @@ public class CloudinaryConfig {
         String apiKey = System.getenv("CLOUDINARY_API_KEY");
         String apiSecret = System.getenv("CLOUDINARY_API_SECRET");
 
-        // Debugging logs
-        System.out.println("Cloud Name: " + cloudName);
-        System.out.println("API Key: " + apiKey);
-        System.out.println("API Secret: " + apiSecret);
-
         Map<String, String> config = Map.of(
                 "cloud_name", cloudName,
                 "api_key", apiKey,

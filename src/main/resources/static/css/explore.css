@@ -1,0 +1,91 @@
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f4f9;
+    color: #333;
+}
+
+.navbar {
+    background-color: #3a0ca3;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 1.5rem;
+}
+
+.nav-links li a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.nav-links li a:hover {
+    color: #f72585;
+    text-decoration: underline;
+    transition: color 0.3s ease;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.explore-section {
+    padding: 3rem 0;
+    text-align: center;
+}
+
+.search-box {
+    margin-bottom: 2rem;
+}
+
+#searchInput {
+    padding: 0.6rem 1rem;
+    width: 300px;
+    border: 2px solid #3a0ca3;
+    border-radius: 5px;
+    margin-right: 0.5rem;
+}
+
+#searchBtn {
+    padding: 0.6rem 1rem;
+    background-color: #3a0ca3;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#searchBtn:hover {
+    background-color: #560bad;
+    transition: background-color 0.3s ease;
+}
+
+.course-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5rem;
+}
+
+.course-card {
+    background-color: #e0e0e0;
+    padding: 1rem 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+    font-weight: bold;
+}
+
+.course-card:hover {
+    transform: scale(1.05);
+    background-color: #d0d0ff;
+}

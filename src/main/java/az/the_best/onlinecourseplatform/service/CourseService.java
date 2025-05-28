@@ -4,6 +4,7 @@ import az.the_best.onlinecourseplatform.dto.DTOCourse;
 import az.the_best.onlinecourseplatform.dto.DTOCourseIU;
 import az.the_best.onlinecourseplatform.entities.Course;
 import az.the_best.onlinecourseplatform.repo.CourseRepo;
+import az.the_best.onlinecourseplatform.service.impl.ICourseService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class CourseService implements ICourseService{
+public class CourseService implements ICourseService {
 
     @Autowired
     CourseRepo courseRepo;
@@ -53,6 +54,20 @@ public class CourseService implements ICourseService{
         return null;
     }
 
+    @Override
+    public List<DTOCourse> getCoursesByName(String name) {
+        List<Course> courses = courseRepo.findByNameStartingWithIgnoreCase(name);
+
+        List<DTOCourse> filteredCourses = new ArrayList<>();
+
+        for (Course course : courses) {
+            DTOCourse dtoCourse = new DTOCourse();
+            BeanUtils.copyProperties(course, dtoCourse);
+            filteredCourses.add(dtoCourse);
+        }
+
+        return filteredCourses;
+    }
 
     @Override
     public DTOCourse editCourse(DTOCourseIU dtoCourseIU, MultipartFile file, Long id) {

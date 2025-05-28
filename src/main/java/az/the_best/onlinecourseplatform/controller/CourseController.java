@@ -1,8 +1,10 @@
 package az.the_best.onlinecourseplatform.controller;
 
+import az.the_best.onlinecourseplatform.controller.impl.ICourseController;
 import az.the_best.onlinecourseplatform.dto.DTOCourse;
 import az.the_best.onlinecourseplatform.dto.DTOCourseIU;
-import az.the_best.onlinecourseplatform.service.ICourseService;
+import az.the_best.onlinecourseplatform.service.impl.ICourseService;
+import az.the_best.onlinecourseplatform.validation.NotEmptyMultipart;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -13,26 +15,31 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "/rest/api/course")
-public class CourseController implements ICourseController{
+public class CourseController implements ICourseController {
 
     @Autowired
     ICourseService courseService;
 
     @PostMapping(path = "/add" , consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Override
-    public DTOCourse addCourse(@ModelAttribute @Valid DTOCourseIU dtoCourseIU, @RequestPart("file") MultipartFile file) {
+    public DTOCourse addCourse(@ModelAttribute @Valid DTOCourseIU dtoCourseIU, @NotEmptyMultipart @RequestPart(value = "file") MultipartFile file) {
         return courseService.addCourse(dtoCourseIU, file);
     }
 
     @GetMapping(path = "/{id}")
     @Override
-    public DTOCourse getCourseById(@PathVariable Long id) {
+    public DTOCourse getCourseById(@PathVariable(name = "id") Long id) {
         return courseService.getCourseById(id);
+    }
+
+    @GetMapping(path = "/search")
+    public List<DTOCourse> getCoursesByName(@RequestParam(name = "name") String name) {
+        return courseService.getCoursesByName(name);
     }
 
     @PutMapping(path = "/edit/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Override
-    public DTOCourse editCourse(@ModelAttribute @Valid DTOCourseIU dtoCourseIU, @RequestPart("file") MultipartFile file, @PathVariable Long id) {
+    public DTOCourse editCourse(@ModelAttribute @Valid DTOCourseIU dtoCourseIU, @NotEmptyMultipart @RequestPart(value = "file") MultipartFile file, @PathVariable Long id) {
         return courseService.editCourse(dtoCourseIU, file, id);
     }
 

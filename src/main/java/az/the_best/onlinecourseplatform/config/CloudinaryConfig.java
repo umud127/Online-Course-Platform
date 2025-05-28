@@ -1,6 +1,8 @@
 package az.the_best.onlinecourseplatform.config;
 
 import com.cloudinary.Cloudinary;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -10,11 +12,11 @@ import java.util.Map;
 public class CloudinaryConfig {
 
     @Bean
-    public Cloudinary cloudinary() {
-        String cloudName = System.getenv("CLOUDINARY_CLOUD_NAME");
-        String apiKey = System.getenv("CLOUDINARY_API_KEY");
-        String apiSecret = System.getenv("CLOUDINARY_API_SECRET");
-
+    public Cloudinary cloudinary(
+            @Value("${cloudinary.cloud-name}") String cloudName,
+            @Value("${cloudinary.api-key}") String apiKey,
+            @Value("${cloudinary.api-secret}") String apiSecret
+    ) {
         Map<String, String> config = Map.of(
                 "cloud_name", cloudName,
                 "api_key", apiKey,

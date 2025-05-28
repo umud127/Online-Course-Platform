@@ -1,4 +1,4 @@
-package az.the_best.onlinecourseplatform.controller;
+package az.the_best.onlinecourseplatform.service.impl;
 
 import az.the_best.onlinecourseplatform.dto.DTOCourse;
 import az.the_best.onlinecourseplatform.dto.DTOCourseIU;
@@ -6,13 +6,15 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
-public interface ICourseController {
+public interface ICourseService {
 
     DTOCourse addCourse(DTOCourseIU dtoCourseIU, MultipartFile file);
 
     DTOCourse getCourseById(Long id);
 
-    DTOCourse editCourse(DTOCourseIU dtoCourseIU,MultipartFile file, Long id);
+    List<DTOCourse> getCoursesByName(String name);
+
+    DTOCourse editCourse(DTOCourseIU dtoCourseIU, MultipartFile file, Long id);
 
     void deleteCourse(Long id);
 

@@ -15,7 +15,7 @@ public class CloudinaryService {
     private final Cloudinary cloudinary;
 
     @Autowired
-    private CloudinaryService(Cloudinary cloudinary) {
+    public CloudinaryService(Cloudinary cloudinary) {
         this.cloudinary = cloudinary;
     }
 
@@ -25,8 +25,7 @@ public class CloudinaryService {
             return uploadResult.get("url").toString();
         } catch (IOException e) {
             System.out.println("Error: " + e.getMessage() + ".... Progw2n't upload");
+            return null;
         }
-
-        return null;
     }
 }

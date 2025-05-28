@@ -27,6 +27,9 @@ public class Course {
     @Column(name = "cover_photo")
     private String coverPhoto;
 
+    @Column(name = "click_view", nullable = false)
+    private int clickView = 0;
+
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private List<Comment> comment;
 

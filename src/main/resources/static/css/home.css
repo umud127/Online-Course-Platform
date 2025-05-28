@@ -1,0 +1,112 @@
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f4f9;
+    color: #333;
+}
+
+.logo:hover {
+    color: #f72585;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.navbar {
+    background-color: #3a0ca3;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 1.5rem;
+}
+
+.nav-links li a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.nav-links li a:hover {
+    color: #f72585; /* bright accent color */
+    text-decoration: underline;
+    transition: color 0.3s ease;
+}
+
+.btn-explore:hover {
+    background-color: #56007a; /* darker purple */
+    box-shadow: 0 4px 8px rgba(114, 9, 183, 0.5);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+
+.hero {
+    background: linear-gradient(to right, #4361ee, #4cc9f0);
+    color: white;
+    padding: 6rem 2rem;
+    text-align: center;
+}
+
+.hero-content {
+    max-width: 600px;
+    margin: auto;
+}
+
+.btn-explore {
+    display: inline-block;
+    margin-top: 1.5rem;
+    padding: 0.75rem 1.5rem;
+    background-color: #7209b7;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 1rem;
+}
+
+.features {
+    padding: 4rem 2rem;
+    background-color: white;
+    text-align: center;
+}
+
+.section-title {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+}
+
+.feature-cards {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+.card {
+    background-color: #e0e0e0;
+    padding: 2rem;
+    border-radius: 10px;
+    width: 280px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px) scale(1.03);
+    box-shadow: 0 8px 15px rgba(0,0,0,0.15);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+
+.footer {
+    background-color: #3a0ca3;
+    color: white;
+    text-align: center;
+    padding: 1.5rem;
+    margin-top: 2rem;
+}

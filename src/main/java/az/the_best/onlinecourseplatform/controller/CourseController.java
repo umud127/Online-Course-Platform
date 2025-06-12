@@ -2,12 +2,13 @@ package az.the_best.onlinecourseplatform.controller;
 
 import az.the_best.onlinecourseplatform.controller.impl.ICourseController;
 import az.the_best.onlinecourseplatform.dto.DTOCourse;
-import az.the_best.onlinecourseplatform.dto.DTOCourseIU;
+import az.the_best.onlinecourseplatform.dto.IU.DTOCourseIU;
 import az.the_best.onlinecourseplatform.service.impl.ICourseService;
 import az.the_best.onlinecourseplatform.validation.NotEmptyMultipart;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -15,6 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "/rest/api/course")
+@Validated
 public class CourseController implements ICourseController {
 
     @Autowired
@@ -22,8 +24,8 @@ public class CourseController implements ICourseController {
 
     @PostMapping(path = "/add" , consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Override
-    public DTOCourse addCourse(@ModelAttribute @Valid DTOCourseIU dtoCourseIU, @NotEmptyMultipart @RequestPart(value = "file") MultipartFile file) {
-        return courseService.addCourse(dtoCourseIU, file);
+    public DTOCourse addCourse(@ModelAttribute @Valid DTOCourseIU dtoCourseIU, @NotEmptyMultipart @RequestPart(value = "file") MultipartFile file,Long id) {
+        return courseService.addCourse(dtoCourseIU, file,id);
     }
 
     @GetMapping(path = "/{id}")
@@ -35,6 +37,12 @@ public class CourseController implements ICourseController {
     @GetMapping(path = "/search")
     public List<DTOCourse> getCoursesByName(@RequestParam(name = "name") String name) {
         return courseService.getCoursesByName(name);
+    }
+
+    @GetMapping(path = "/top5")
+    @Override
+    public List<DTOCourse> getTop5Courses() {
+        return courseService.getTop5Courses();
     }
 
     @PutMapping(path = "/edit/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)

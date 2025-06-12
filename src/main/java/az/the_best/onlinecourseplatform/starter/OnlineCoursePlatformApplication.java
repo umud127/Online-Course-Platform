@@ -21,6 +21,10 @@ public class OnlineCoursePlatformApplication {
         System.setProperty("CLOUDINARY_API_KEY", dotenv.get("CLOUDINARY_API_KEY"));
         System.setProperty("CLOUDINARY_API_SECRET", dotenv.get("CLOUDINARY_API_SECRET"));
 
+        System.setProperty("MYSQL_URL", dotenv.get("MYSQL_URL"));
+        System.setProperty("MYSQL_NAME", dotenv.get("MYSQL_NAME"));
+        System.setProperty("MYSQL_PASSWORD", dotenv.get("MYSQL_PASSWORD"));
+
         SpringApplication.run(OnlineCoursePlatformApplication.class, args);
     }
 

@@ -18,6 +18,8 @@ body {
     list-style: none;
     display: flex;
     gap: 1.5rem;
+    margin: 0;
+    padding: 0;
 }
 
 .nav-links li a {
@@ -70,22 +72,63 @@ body {
 }
 
 .course-list {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 1.5rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    padding: 1rem;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .course-card {
-    background-color: #e0e0e0;
-    padding: 1rem 2rem;
+    background-color: white;
     border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     transition: transform 0.3s ease;
-    font-weight: bold;
+    height: 100%;
+    min-height: 460px;
 }
 
 .course-card:hover {
-    transform: scale(1.05);
-    background-color: #d0d0ff;
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.course-img-container {
+    width: 100%;
+    aspect-ratio: 16/9;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.course-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.course-card h3 {
+    font-size: 1.1rem;
+    color: #3a0ca3;
+    margin: 0.75rem 1rem 0.25rem;
+    text-align: center;
+}
+
+.course-desc {
+    font-size: 0.9rem;
+    color: #555;
+    margin: 0 1rem 0.5rem;
+    text-align: center;
+    flex-grow: 1;
+}
+
+.click-count {
+    font-size: 0.85rem;
+    color: #777;
+    text-align: center;
+    margin-bottom: 1rem;
 }

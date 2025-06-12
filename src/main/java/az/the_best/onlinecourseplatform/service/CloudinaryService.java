@@ -1,5 +1,8 @@
 package az.the_best.onlinecourseplatform.service;
 
+import az.the_best.onlinecourseplatform.exception.BaseException;
+import az.the_best.onlinecourseplatform.exception.ErrorMessage;
+import az.the_best.onlinecourseplatform.exception.MessageType;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +28,7 @@ public class CloudinaryService {
             return uploadResult.get("url").toString();
         } catch (IOException e) {
             System.out.println("Error: " + e.getMessage() + ".... Progw2n't upload");
-            return null;
+            throw new BaseException(new ErrorMessage(MessageType.SERVER_ERROR,null));
         }
     }
 }

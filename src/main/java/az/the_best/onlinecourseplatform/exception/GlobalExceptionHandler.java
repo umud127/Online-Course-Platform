@@ -32,7 +32,6 @@ public class GlobalExceptionHandler {
         return ResponseEntity.badRequest().body(buildApiError(errorMap));
     }
 
-    
     @ExceptionHandler(HandlerMethodValidationException.class)
     public ResponseEntity<ApiError<Map<String, List<String>>>> handleHandlerMethodValidationException(HandlerMethodValidationException ex) {
         Map<String, List<String>> errorMap = new HashMap<>();
@@ -57,7 +56,6 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApiError<String>> handleMissingPart(MissingServletRequestPartException ex) {
         return ResponseEntity.badRequest().body(buildApiError("Media file is required"));
     }
-
 
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<ApiError<List<String>>> handleConstraintViolationException(ConstraintViolationException exception) {

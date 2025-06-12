@@ -1,45 +1,63 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // İlk yüklənəndə bütün kursları göstər (boş string - filter yoxdur)
-    fetchCourses("");
+    fetchTop5Courses();
 
-    // Axtarış düyməsinə klik olduqda
     document.getElementById("searchBtn").addEventListener("click", () => {
         const searchTerm = document.getElementById("searchInput").value.trim();
-        fetchCourses(searchTerm);
+        if (searchTerm === "") {
+            fetchTop5Courses();
+        } else {
+            fetchCourses(searchTerm);
+        }
     });
 });
 
-function fetchCourses(name = "") {
-    const url = `/rest/api/course/search?name=${encodeURIComponent(name)}`;
-
-    fetch(url)
-        .then(response => {
-            if (!response.ok) throw new Error("Failed to fetch courses");
-            return response.json();
-        })
-        .then(data => {
-            displayCourses(data);
-        })
-        .catch(error => {
-            console.error("Error fetching courses:", error);
-            document.getElementById("courseList").innerHTML = "<p>Failed to load courses.</p>";
+function fetchTop5Courses() {
+    fetch('http://localhost:8080/rest/api/course/top5')
+        .then(res => res.json())
+        .then(data => displayCourses(data))
+        .catch(() => {
+            document.getElementById("courseList").innerHTML = "<div class='course-card'>Failed to load top courses.</div>";
         });
 }
 
-function displayCourses(courseArray) {
-    const courseList = document.getElementById("courseList");
-    courseList.innerHTML = "";  // əvvəlki kursları təmizlə
+function fetchCourses(name) {
+    fetch(`http://localhost:8080/rest/api/course/search?name=${encodeURIComponent(name)}&limit=5`)
+        .then(res => res.json())
+        .then(data => displayCourses(data))
+        .catch(() => {
+            document.getElementById("courseList").innerHTML = "<div class='course-card'>Failed to load search results.</div>";
+        });
+}
 
-    if (!courseArray || courseArray.length === 0) {
-        courseList.innerHTML = "<p>No courses found.</p>";
+function displayCourses(courses) {
+    const courseList = document.getElementById("courseList");
+    courseList.innerHTML = "";
+
+    if (!courses || courses.length === 0) {
+        courseList.innerHTML = "<div class='course-card'>No courses found.</div>";
         return;
     }
 
-    // Dinamik kurs kartlarını yarat
-    courseArray.forEach(course => {
-        const card = document.createElement("div");
-        card.className = "course-card";
-        card.textContent = course.name;  // backend-dən gələn `name` sahəsi
-        courseList.appendChild(card);
+    courses.forEach(course => {
+        const courseCard = document.createElement("div");
+        courseCard.className = "course-card";
+
+        const imageUrl = course.coverPhoto && course.coverPhoto.trim() !== ""
+            ? course.coverPhoto
+            : "https://via.placeholder.com/300x180?text=No+Image";
+
+        courseCard.innerHTML = `
+            <div class="course-img-container">
+                <img src="${imageUrl}" 
+                     alt="${course.name}" 
+                     class="course-img"
+                     onerror="this.onerror=null;this.src='https://via.placeholder.com/300x180?text=No+Image';" />
+            </div>
+            <h3>${course.name}</h3>
+            <p class="course-desc">${course.description}</p>
+            <p class="click-count">Clicks: ${course.clickCount}</p>
+        `;
+
+        courseList.appendChild(courseCard);
     });
 }

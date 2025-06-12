@@ -1,9 +1,13 @@
 package az.the_best.onlinecourseplatform.service;
 
 import az.the_best.onlinecourseplatform.dto.DTOCourse;
-import az.the_best.onlinecourseplatform.dto.DTOCourseIU;
+import az.the_best.onlinecourseplatform.dto.IU.DTOCourseIU;
 import az.the_best.onlinecourseplatform.entities.Course;
+import az.the_best.onlinecourseplatform.exception.BaseException;
+import az.the_best.onlinecourseplatform.exception.ErrorMessage;
+import az.the_best.onlinecourseplatform.exception.MessageType;
 import az.the_best.onlinecourseplatform.repo.CourseRepo;
+import az.the_best.onlinecourseplatform.repo.UserRepo;
 import az.the_best.onlinecourseplatform.service.impl.ICourseService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,15 +24,19 @@ public class CourseService implements ICourseService {
     CourseRepo courseRepo;
 
     @Autowired
+    UserRepo userRepo;
+
+    @Autowired
     CloudinaryService cloudinaryService;
 
     @Override
-    public DTOCourse addCourse(DTOCourseIU dtoCourseIU, MultipartFile file) {
+    public DTOCourse addCourse(DTOCourseIU dtoCourseIU, MultipartFile file,Long id) {
         Course course = new Course();
 
         BeanUtils.copyProperties(dtoCourseIU, course);
+        course.setUser(userRepo.findById(id).get());
 
-        if(file != null) {
+            if(file != null) {
             String imageUrl = cloudinaryService.uploadImage(file);
             course.setCoverPhoto(imageUrl);
         }
@@ -45,18 +53,22 @@ public class CourseService implements ICourseService {
     public DTOCourse getCourseById(Long id) {
         Course course = courseRepo.findById(id).orElse(null);
 
-        if(course != null) {
+        if(course == null) {
+            throw new BaseException(new ErrorMessage(MessageType.NO_DATA_EXIST,id.toString()));
+        }else{
             DTOCourse dtoCourse = new DTOCourse();
             BeanUtils.copyProperties(course, dtoCourse);
             return dtoCourse;
         }
-
-        return null;
     }
 
     @Override
     public List<DTOCourse> getCoursesByName(String name) {
         List<Course> courses = courseRepo.findByNameStartingWithIgnoreCase(name);
+
+        if(courses.isEmpty()) {
+            throw new BaseException(new ErrorMessage(MessageType.NO_DATA_EXIST,name));
+        }
 
         List<DTOCourse> filteredCourses = new ArrayList<>();
 
@@ -67,6 +79,20 @@ public class CourseService implements ICourseService {
         }
 
         return filteredCourses;
+    }
+
+    @Override
+    public List<DTOCourse> getTop5Courses() {
+        List<Course> courses = courseRepo.findTop5ByOrderByClickCountDesc();
+        List<DTOCourse> dtos = new ArrayList<>();
+
+        for (Course course : courses) {
+            DTOCourse dto = new DTOCourse();
+            BeanUtils.copyProperties(course, dto);
+            dtos.add(dto);
+        }
+
+        return dtos;
     }
 
     @Override

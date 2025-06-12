@@ -10,5 +10,5 @@ import java.util.List;
 public interface CourseRepo extends JpaRepository<Course, Long> {
     List<Course> findByNameStartingWithIgnoreCase(String name);
 
-    List<Course> findTop5ByOrderByClickViewDesc();
+    List<Course> findTop5ByOrderByClickCountDesc();
 }

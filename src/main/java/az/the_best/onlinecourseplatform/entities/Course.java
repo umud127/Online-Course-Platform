@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigInteger;
 import java.util.List;
 
 @Table(name = "courses")
@@ -27,13 +28,13 @@ public class Course {
     @Column(name = "cover_photo")
     private String coverPhoto;
 
-    @Column(name = "click_view", nullable = false)
-    private int clickView = 0;
+    @Column(name = "click_count", nullable = false)
+    private BigInteger clickCount = BigInteger.valueOf(0);
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private List<Comment> comment;
 
     @ManyToOne
-    @JoinColumn(name = "user", insertable = false, updatable = false)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 }

@@ -1,7 +1,7 @@
 package az.the_best.onlinecourseplatform.controller.impl;
 
 import az.the_best.onlinecourseplatform.dto.DTOCourse;
-import az.the_best.onlinecourseplatform.dto.DTOCourseIU;
+import az.the_best.onlinecourseplatform.dto.IU.DTOCourseIU;
 import az.the_best.onlinecourseplatform.validation.NotEmptyMultipart;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -13,11 +13,13 @@ import java.util.List;
 
 public interface ICourseController {
 
-        DTOCourse addCourse(@ModelAttribute @Valid DTOCourseIU dtoCourseIU, @NotEmptyMultipart @RequestPart(value = "file") MultipartFile file);
+    DTOCourse addCourse(@ModelAttribute @Valid DTOCourseIU dtoCourseIU, @NotEmptyMultipart @RequestPart(value = "file") MultipartFile file,Long id);
 
     DTOCourse getCourseById(Long id);
 
     List<DTOCourse> getCoursesByName(String name);
+
+    List<DTOCourse> getTop5Courses();
 
     DTOCourse editCourse(@ModelAttribute @Valid DTOCourseIU dtoCourseIU, @NotEmptyMultipart @RequestPart(value = "file") MultipartFile file, @PathVariable Long id);
 

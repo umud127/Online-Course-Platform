@@ -16,6 +16,7 @@ public class Submission {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "text",nullable = false)
     String text;
 
     @ManyToOne

@@ -24,7 +24,7 @@ public class User {
     @Column(name = "password")
     private String password;
 
-    @Column(name = "email")
+    @Column(name = "email", unique = true)
     private String email;
 
     @Column(name = "phone_number")
@@ -36,7 +36,7 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Course> course;
 
-    @OneToMany
-    @JoinColumn(name = "submission")
-    private List<Submission> submission;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Submission> submissions;
+
 }

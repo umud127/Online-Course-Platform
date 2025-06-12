@@ -1,4 +1,4 @@
-package az.the_best.onlinecourseplatform.dto;
+package az.the_best.onlinecourseplatform.dto.IU;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -9,7 +9,11 @@ import lombok.Data;
 public class DTOCourseIU {
 
     @NotNull(message = "!!! Send a user id which person wanna create a course !!!")
-    Long id;
+    String user_id;
+
+    public Long getUserIdAsLong() {
+        return Long.parseLong(user_id);
+    }
 
     @NotNull(message = "Name can't be null")
     @NotBlank(message = "Name can't be empty(Try at least 4 letter)")
@@ -17,7 +21,7 @@ public class DTOCourseIU {
     String name;
 
     @NotNull(message = "Description can't be null")
-    @NotBlank(message = "Name can't be empty(Try at least 20 letter)")
+    @NotBlank(message = "Description can't be empty(Try at least 20 letter)")
     @Size(min = 20, max = 1000, message = "Name must be between 20 and 1000 letters")
     String description;
 }

@@ -21,10 +21,10 @@ public class Comment {
     private String text;
 
     @ManyToOne
-    @JoinColumn(name = "course", insertable = false, updatable = false)
+    @JoinColumn(name = "course")
     private Course course;
 
     @ManyToOne
-    @JoinColumn(name = "user", insertable = false, updatable = false)
+    @JoinColumn(name = "user")
     private User user;
 }

@@ -3,6 +3,7 @@ package az.the_best.onlinecourseplatform.service;
 import az.the_best.onlinecourseplatform.dto.DTOCourse;
 import az.the_best.onlinecourseplatform.dto.IU.DTOCourseIU;
 import az.the_best.onlinecourseplatform.entities.Course;
+import az.the_best.onlinecourseplatform.entities.User;
 import az.the_best.onlinecourseplatform.exception.BaseException;
 import az.the_best.onlinecourseplatform.exception.ErrorMessage;
 import az.the_best.onlinecourseplatform.exception.MessageType;
@@ -16,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CourseService implements ICourseService {
@@ -30,11 +32,19 @@ public class CourseService implements ICourseService {
     CloudinaryService cloudinaryService;
 
     @Override
-    public DTOCourse addCourse(DTOCourseIU dtoCourseIU, MultipartFile file,Long id) {
+    public DTOCourse addCourse(DTOCourseIU dtoCourseIU, MultipartFile file,Long userId) {
         Course course = new Course();
 
         BeanUtils.copyProperties(dtoCourseIU, course);
-        course.setUser(userRepo.findById(id).get());
+
+        Optional<User> optionalUser = userRepo.findById(userId);
+
+        if(optionalUser.isPresent()){
+            User user = optionalUser.get();
+            course.setUser(user);
+        } else {
+            throw new BaseException(new ErrorMessage(MessageType.NO_DATA_EXIST,userId.toString()));
+        }
 
             if(file != null) {
             String imageUrl = cloudinaryService.uploadImage(file);

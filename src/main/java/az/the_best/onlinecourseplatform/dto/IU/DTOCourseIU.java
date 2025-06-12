@@ -8,13 +8,6 @@ import lombok.Data;
 @Data
 public class DTOCourseIU {
 
-    @NotNull(message = "!!! Send a user id which person wanna create a course !!!")
-    String user_id;
-
-    public Long getUserIdAsLong() {
-        return Long.parseLong(user_id);
-    }
-
     @NotNull(message = "Name can't be null")
     @NotBlank(message = "Name can't be empty(Try at least 4 letter)")
     @Size(min = 4, max = 50, message = "Name must be between 4 and 50 letters")

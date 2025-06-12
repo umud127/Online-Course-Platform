@@ -1,5 +1,6 @@
-package az.the_best.onlinecourseplatform.exception;
+package az.the_best.onlinecourseplatform.handler;
 
+import az.the_best.onlinecourseplatform.exception.ApiError;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.context.MessageSourceResolvable;
@@ -19,7 +20,7 @@ import java.util.stream.Collectors;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity< ApiError < Map<String, List<String>> > > handleMethodArgumentNotValidException(MethodArgumentNotValidException exception) {
+    public ResponseEntity<ApiError< Map<String, List<String>> >> handleMethodArgumentNotValidException(MethodArgumentNotValidException exception) {
         Map<String, List<String>> errorMap = new HashMap<>();
 
         for (ObjectError error : exception.getBindingResult().getAllErrors()) {

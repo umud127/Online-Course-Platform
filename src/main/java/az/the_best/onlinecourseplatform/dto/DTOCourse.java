@@ -9,6 +9,7 @@ import java.math.BigInteger;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class DTOCourse {
 
+    private Long id;
     private String name;
     private String description;
     private String coverPhoto;

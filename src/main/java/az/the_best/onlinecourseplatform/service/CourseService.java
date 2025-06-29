@@ -2,6 +2,7 @@ package az.the_best.onlinecourseplatform.service;
 
 import az.the_best.onlinecourseplatform.dto.DTOCourse;
 import az.the_best.onlinecourseplatform.dto.IU.DTOCourseIU;
+import az.the_best.onlinecourseplatform.entities.BaseEntity;
 import az.the_best.onlinecourseplatform.entities.Course;
 import az.the_best.onlinecourseplatform.entities.User;
 import az.the_best.onlinecourseplatform.exception.BaseException;
@@ -19,6 +20,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static az.the_best.onlinecourseplatform.entities.BaseEntity.notOk;
+import static az.the_best.onlinecourseplatform.entities.BaseEntity.ok;
+
 @Service
 public class CourseService implements ICourseService {
 
@@ -32,7 +36,7 @@ public class CourseService implements ICourseService {
     CloudinaryService cloudinaryService;
 
     @Override
-    public DTOCourse addCourse(DTOCourseIU dtoCourseIU, MultipartFile file,Long userId) {
+    public BaseEntity<DTOCourse> addCourse(DTOCourseIU dtoCourseIU, MultipartFile file, Long userId) {
         Course course = new Course();
 
         BeanUtils.copyProperties(dtoCourseIU, course);
@@ -56,24 +60,26 @@ public class CourseService implements ICourseService {
         DTOCourse dtoCourse = new DTOCourse();
         BeanUtils.copyProperties(savedCourse, dtoCourse);
 
-        return dtoCourse;
+        return ok(dtoCourse);
     }
 
     @Override
-    public DTOCourse getCourseById(Long id) {
+    public BaseEntity<DTOCourse> getCourseById(Long id) {
         Course course = courseRepo.findById(id).orElse(null);
+        DTOCourse dtoCourse = new DTOCourse();
 
         if(course == null) {
-            throw new BaseException(new ErrorMessage(MessageType.NO_DATA_EXIST,id.toString()));
+//            throw new BaseException(new ErrorMessage(MessageType.NO_DATA_EXIST,id.toString()));
+            return notOk(MessageType.NO_DATA_EXIST,id.toString());
         }else{
-            DTOCourse dtoCourse = new DTOCourse();
             BeanUtils.copyProperties(course, dtoCourse);
-            return dtoCourse;
         }
+
+        return ok(dtoCourse);
     }
 
     @Override
-    public List<DTOCourse> getCoursesByName(String name) {
+    public BaseEntity<List<DTOCourse>> getCoursesByName(String name) {
         List<Course> courses = courseRepo.findByNameStartingWithIgnoreCase(name);
 
         if(courses.isEmpty()) {
@@ -88,11 +94,11 @@ public class CourseService implements ICourseService {
             filteredCourses.add(dtoCourse);
         }
 
-        return filteredCourses;
+        return ok(filteredCourses);
     }
 
     @Override
-    public List<DTOCourse> getTop5Courses() {
+    public BaseEntity<List<DTOCourse>> getTop5Courses() {
         List<Course> courses = courseRepo.findTop5ByOrderByClickCountDesc();
         List<DTOCourse> dtos = new ArrayList<>();
 
@@ -102,11 +108,11 @@ public class CourseService implements ICourseService {
             dtos.add(dto);
         }
 
-        return dtos;
+        return ok(dtos);
     }
 
     @Override
-    public DTOCourse editCourse(DTOCourseIU dtoCourseIU, MultipartFile file, Long id) {
+    public BaseEntity<DTOCourse> editCourse(DTOCourseIU dtoCourseIU, MultipartFile file, Long id) {
         Course course = courseRepo.findById(id).orElse(null);
 
         if(course != null) {
@@ -115,10 +121,10 @@ public class CourseService implements ICourseService {
 
             DTOCourse dtoCourse = new DTOCourse();
             BeanUtils.copyProperties(course, dtoCourse);
-            return dtoCourse;
+            return ok(dtoCourse);
         }
 
-        return null;
+        return notOk(MessageType.NO_DATA_EXIST,id.toString());
     }
 
     @Override
@@ -127,7 +133,7 @@ public class CourseService implements ICourseService {
     }
 
     @Override
-    public List<DTOCourse> getAllCourses() {
+    public BaseEntity<List<DTOCourse>> getAllCourses() {
         List<Course> courses = courseRepo.findAll();
 
         List<DTOCourse> coursesDTO = new ArrayList<>(courses.size());
@@ -137,6 +143,11 @@ public class CourseService implements ICourseService {
             BeanUtils.copyProperties(course, dtoCourse);
             coursesDTO.add(dtoCourse);
         }
-        return coursesDTO;
+        return ok(coursesDTO);
+    }
+
+    @Override
+    public void increaseClickCount(Long id) {
+        courseRepo.increaseClickCount(id);
     }
 }

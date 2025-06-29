@@ -3,6 +3,7 @@ package az.the_best.onlinecourseplatform.controller;
 import az.the_best.onlinecourseplatform.controller.impl.ICourseController;
 import az.the_best.onlinecourseplatform.dto.DTOCourse;
 import az.the_best.onlinecourseplatform.dto.IU.DTOCourseIU;
+import az.the_best.onlinecourseplatform.entities.BaseEntity;
 import az.the_best.onlinecourseplatform.service.impl.ICourseService;
 import az.the_best.onlinecourseplatform.validation.NotEmptyMultipart;
 import jakarta.validation.Valid;
@@ -24,30 +25,30 @@ public class CourseController implements ICourseController {
 
     @PostMapping(path = "/add" , consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Override
-    public DTOCourse addCourse(@ModelAttribute @Valid DTOCourseIU dtoCourseIU, @NotEmptyMultipart @RequestPart(value = "file") MultipartFile file,Long id) {
+    public BaseEntity<DTOCourse> addCourse(@ModelAttribute @Valid DTOCourseIU dtoCourseIU, @NotEmptyMultipart @RequestPart(value = "file") MultipartFile file,Long id) {
         return courseService.addCourse(dtoCourseIU, file,id);
     }
 
     @GetMapping(path = "/{id}")
     @Override
-    public DTOCourse getCourseById(@PathVariable(name = "id") Long id) {
+    public BaseEntity<DTOCourse> getCourseById(@PathVariable(name = "id") Long id) {
         return courseService.getCourseById(id);
     }
 
     @GetMapping(path = "/search")
-    public List<DTOCourse> getCoursesByName(@RequestParam(name = "name") String name) {
+    public BaseEntity<List<DTOCourse>> getCoursesByName(@RequestParam(name = "name") String name) {
         return courseService.getCoursesByName(name);
     }
 
     @GetMapping(path = "/top5")
     @Override
-    public List<DTOCourse> getTop5Courses() {
+    public BaseEntity<List<DTOCourse>> getTop5Courses() {
         return courseService.getTop5Courses();
     }
 
     @PutMapping(path = "/edit/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Override
-    public DTOCourse editCourse(@ModelAttribute @Valid DTOCourseIU dtoCourseIU, @NotEmptyMultipart @RequestPart(value = "file") MultipartFile file, @PathVariable Long id) {
+    public BaseEntity<DTOCourse> editCourse(@ModelAttribute @Valid DTOCourseIU dtoCourseIU, @NotEmptyMultipart @RequestPart(value = "file") MultipartFile file, @PathVariable Long id) {
         return courseService.editCourse(dtoCourseIU, file, id);
     }
 
@@ -59,7 +60,14 @@ public class CourseController implements ICourseController {
 
     @GetMapping(path = "/all")
     @Override
-    public List<DTOCourse> getAllCourses() {
+    public BaseEntity<List<DTOCourse>> getAllCourses() {
         return courseService.getAllCourses();
+    }
+
+    @PutMapping(path = "/{id}/increaseClickCount")
+    @Override
+    public void increaseClickCount(@PathVariable Long id) {
+        courseService.increaseClickCount(id);
+        System.out.println("increased click count");
     }
 }

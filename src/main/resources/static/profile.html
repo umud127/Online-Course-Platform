@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Profile Page</title>
+  <link rel="stylesheet" href="/css/profile.css" />
+
+
+  <!-- Favicon-->
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+
+
+</head>
+<body>
+<nav class="navbar">
+  <div class="navbar-left">Bestemy</div>
+  <div class="navbar-right">
+    <img
+            src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+            class="profile-pic"
+            alt="Profile"
+    />
+  </div>
+</nav>
+
+<div class="container">
+  <div class="sidebar">
+    <button onclick="showSection('userInfo')">User Info</button>
+    <button onclick="showSection('enrolledCourses')">Enrolled Courses</button>
+    <button onclick="showSection('teacherInfo')">Teacher Info</button>
+
+    <div class="bottom-buttons">
+      <button id="logoutBtn" class="danger-button">Log Out</button>
+      <button id="deleteAccountBtn" class="danger-button">Delete Account</button>
+    </div>
+  </div>
+
+  <div class="content">
+    <section id="userInfo">
+      <h2>User Info</h2>
+      <form id="userInfoForm">
+        <label>Username:</label>
+        <input type="text" id="username" readonly />
+
+        <label>Email:</label>
+        <input type="email" id="email" readonly />
+
+        <label>Phone:</label>
+        <input type="text" id="phone" />
+
+        <label>Password:</label>
+        <input type="password" id="password" placeholder="Change password" />
+
+        <button type="submit">Update</button>
+      </form>
+    </section>
+
+
+
+    <section id="enrolledCourses" style="display:none;">
+      <h2>Enrolled Courses</h2>
+      <ul id="courseList"></ul>
+    </section>
+
+
+
+    <section id="teacherInfo" style="display:none;">
+      <h2>Teacher Info</h2>
+      <div id="beATeacherSection">
+        <p>You are not a teacher yet.</p>
+        <button onclick="becomeTeacher()">Be a Teacher</button>
+      </div>
+      <div id="teacherPanelSection" style="display:none;">
+        <p>Welcome to your teacher panel!</p>
+        <!-- Teacher panel content -->
+      </div>
+    </section>
+
+
+  </div>
+</div>
+
+
+<div id="logoutConfirm" class="logout-confirm hidden">
+  <p>Are you sure you want to log out?</p>
+  <button onclick="confirmLogout(true)">Yes</button>
+  <button onclick="confirmLogout(false)">No</button>
+</div>
+
+
+<script src="/js/auth.js"></script>
+<script src="/js/profile.js"></script>
+</body>
+</html>

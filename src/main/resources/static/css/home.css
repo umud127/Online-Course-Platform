@@ -5,41 +5,75 @@ body {
     color: #333;
 }
 
-.logo:hover {
-    color: #f72585;
-    cursor: pointer;
-    transition: color 0.3s ease;
-}
-
 .navbar {
     background-color: #3a0ca3;
-    padding: 1rem 2rem;
+    padding: 0 2rem;
+    height: 70px;
+    display: flex;
+    align-items: center;
+}
+
+.navbar-container {
+    max-width: 1500px;
+    margin: 0 auto;
+    width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 0 1rem;
+}
+
+.logo {
+    font-size: 1.4rem;
+    font-weight: bold;
     color: white;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    height: 70px;
+    margin: 0;
 }
 
 .nav-links {
     list-style: none;
     display: flex;
-    gap: 1.5rem;
+    gap: 2rem;
+    margin: 0;
+    padding: 0;
+    height: 70px;
+    align-items: center;
+}
+
+.nav-links li {
+    display: flex;
+    align-items: center;
+    height: 100%;
 }
 
 .nav-links li a {
     color: white;
     text-decoration: none;
     font-weight: bold;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    padding: 0 0.5rem;
 }
 
 .nav-links li a:hover {
-    color: #f72585; /* bright accent color */
+    color: #f72585;
     text-decoration: underline;
     transition: color 0.3s ease;
 }
 
+.logo:hover {
+    color: #f72585;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
 .btn-explore:hover {
-    background-color: #56007a; /* darker purple */
+    background-color: #56007a;
     box-shadow: 0 4px 8px rgba(114, 9, 183, 0.5);
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }

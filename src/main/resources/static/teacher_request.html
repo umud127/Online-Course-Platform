@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Teacher Request</title>
+    <link rel="stylesheet" href="/css/teacher_request.css" />
+
+    <!-- Favicon-->
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+
+    
+</head>
+<body>
+<div class="request-container">
+    <h2>Request to Become a Teacher</h2>
+    <form id="teacherRequestForm" enctype="multipart/form-data">
+        <label for="photo">Upload Your Photo:</label>
+        <input type="file" id="photo" name="photo" accept="image/*" required />
+
+        <label for="description">Profile Description:</label>
+        <textarea id="description" name="description" rows="4" required></textarea>
+
+        <label for="message">Message to Admin:</label>
+        <textarea id="message" name="message" rows="4" required></textarea>
+
+        <label for="topics">Subjects You Want to Teach:</label>
+        <input type="text" id="topics" name="topics" placeholder="e.g. Java, Spring Boot" required />
+
+        <button type="submit">Send Request</button>
+    </form>
+
+    <div id="responseMessage" class="hidden">We appreciate your request!</div>
+</div>
+
+<script src="/js/teacher_request.js"></script>
+</body>
+</html>

@@ -2,7 +2,7 @@ package az.the_best.onlinecourseplatform;
 
 import az.the_best.onlinecourseplatform.dto.DTOCourse;
 import az.the_best.onlinecourseplatform.entities.BaseEntity;
-import az.the_best.onlinecourseplatform.service.CourseService;
+import az.the_best.onlinecourseplatform.service.impl.RestCourseServiceIMPL;
 import az.the_best.onlinecourseplatform.starter.OnlineCoursePlatformApplication;
 import io.github.cdimascio.dotenv.Dotenv;
 import org.junit.jupiter.api.AfterAll;
@@ -17,10 +17,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(classes = {OnlineCoursePlatformApplication.class})
-class CourseServiceTests {
+class RestCourseServiceIMPLTests {
 
     @Autowired
-    CourseService courseService;
+    RestCourseServiceIMPL restCourseServiceIMPL;
 
     @BeforeAll
     public static void setup(){
@@ -49,14 +49,14 @@ class CourseServiceTests {
 
     @Test
     public void testCourseName(){
-        BaseEntity<DTOCourse> baseEntity = courseService.getCourseById(2L);
+        BaseEntity<DTOCourse> baseEntity = restCourseServiceIMPL.getCourseById(2L);
         assertEquals("delphin",baseEntity.getData().getName());
     }
 
     @ParameterizedTest
     @ValueSource(longs = {1L, 2L, 3L,4L,5L})
     public void testGetCourseById(Long id){
-        BaseEntity<DTOCourse> baseEntity = courseService.getCourseById(id);
+        BaseEntity<DTOCourse> baseEntity = restCourseServiceIMPL.getCourseById(id);
 
         if(baseEntity!=null){
             System.out.println(baseEntity.getData());

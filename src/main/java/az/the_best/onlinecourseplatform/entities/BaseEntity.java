@@ -1,6 +1,5 @@
 package az.the_best.onlinecourseplatform.entities;
 
-import az.the_best.onlinecourseplatform.exception.BaseException;
 import az.the_best.onlinecourseplatform.exception.ErrorMessage;
 import az.the_best.onlinecourseplatform.exception.MessageType;
 import lombok.AllArgsConstructor;

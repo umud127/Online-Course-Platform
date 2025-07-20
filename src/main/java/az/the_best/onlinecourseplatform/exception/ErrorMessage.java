@@ -15,14 +15,11 @@ public class ErrorMessage {
 
     private String ofStatic;
 
-    public String prepereMessage(){
-        StringBuilder message = new StringBuilder();
-        message.append(type.name());
-
-        if(ofStatic != null){
-            message.append(" : ").append(ofStatic);
+    public String prepareMessage(){
+        if (ofStatic == null) {
+            return type.name();
         }
 
-        return message.toString();
+        return type.name() + " : " + ofStatic;
     }
 }

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Sign Up - Bestemy</title>
+    <link rel="stylesheet" href="/css/sign_up.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet" />
+
+
+    <!-- Favicon-->
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+
+
+</head>
+<body>
+
+<video autoplay muted loop id="bgVideo">
+    <source src="resource/Sign_Up_Animation.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+</video>
+
+<div class="overlay"></div>
+
+<div class="auth-container">
+    <div class="auth-box animate__animated animate__fadeIn">
+        <h2>Create Your Account</h2>
+
+        <form id="signupForm">
+            <input type="text" placeholder="Username" name="username" required />
+            <input type="email" placeholder="Email" name="email" required />
+            <input type="text" placeholder="Phone Number" name="phone" required />
+            <input type="password" placeholder="Password" name="password" required />
+
+            <div class="verify-box">
+                <input type="text" placeholder="Verification Code" name="code" />
+                <button type="button" class="send-code-btn">Send Code</button>
+                <button type="button" class="verify-code-btn">Verify</button>
+            </div>
+
+            <button type="submit" class="submit-btn">Sign Up</button>
+        </form>
+
+        <div id="response" style="margin-top: 15px; font-weight: bold;"></div>
+
+        <p>Already have an account? <a href="sign_in.html">Sign In</a></p>
+
+        <div class="social-login">
+            <p>Or sign up with</p>
+            <a href="/oauth2/authorization/google" class="google-btn">
+                <i class="fab fa-google"></i> Sign in with Google
+            </a>
+        </div>
+    </div>
+</div>
+
+</body>
+<script src="/js/sign_up.js"></script>
+</html>

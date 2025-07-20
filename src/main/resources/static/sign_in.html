@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Sign In - Bestemy</title>
+    <link rel="stylesheet" href="/css/sign_up.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet" />
+
+
+    <!-- Favicon-->
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+
+
+</head>
+<body>
+
+<video autoplay muted loop id="bgVideo">
+    <source src="resource/Sign_Up_Animation.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+</video>
+
+<div class="overlay"></div>
+
+<div class="auth-container">
+    <div class="auth-box animate__animated animate__fadeIn">
+        <h2>Welcome Back</h2>
+
+        <form id="signinForm">
+            <input type="email" placeholder="Email" name="email" required />
+            <input type="password" placeholder="Password" name="password" required />
+            <button type="submit" class="submit-btn">Sign In</button>
+        </form>
+
+        <div id="response" style="margin-top: 15px; font-weight: bold;"></div>
+
+        <p>Don't have an account? <a href="sign_up.html">Sign Up</a></p>
+
+        <div class="social-login">
+            <p>Or sign in with</p>
+            <a href="/oauth2/authorization/google" class="google-btn">
+                <i class="fab fa-google"></i> Sign in with Google
+            </a>
+        </div>
+    </div>
+</div>
+
+</body>
+<script src="/js/sign_in.js"></script>
+</html>

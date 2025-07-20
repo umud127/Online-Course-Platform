@@ -1,0 +1,139 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background: #f7f9fc;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #3f37c9;
+    color: white;
+    padding: 1rem 2rem;
+}
+
+.profile-pic {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.container {
+    display: flex;
+    height: calc(100vh - 70px);
+}
+
+.sidebar {
+    width: 220px;
+    background-color: #e0e0e0;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: none;
+    background-color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.sidebar button:hover {
+    background-color: #dcdcdc;
+}
+
+.content {
+    flex: 1;
+    padding: 2rem;
+    overflow-y: auto;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+form input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+form button {
+    padding: 10px;
+    background-color: #3f37c9;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+form button:hover {
+    background-color: #5a4fcf;
+}
+
+.logout-button {
+    background-color: #ff4d4d !important;
+    color: white;
+    margin-top: auto;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    border-radius: 4px;
+}
+
+.logout-button:hover {
+    background-color: #cc0000 !important;
+}
+
+.logout-confirm {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    background-color: white;
+    border: 2px solid red;
+    padding: 15px;
+    box-shadow: 0 0 10px gray;
+    z-index: 1000;
+}
+
+.logout-confirm.hidden {
+    display: none;
+}
+
+.logout-confirm button {
+    margin: 5px;
+    padding: 5px 10px;
+    font-weight: bold;
+}
+
+.danger-button {
+    background-color: #ff4d4d !important;
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 4px;
+    padding: 10px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.danger-button:hover {
+    background-color: #cc0000 !important;
+}
+
+.bottom-buttons {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+}

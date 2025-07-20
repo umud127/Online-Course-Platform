@@ -9,21 +9,23 @@ document.addEventListener("DOMContentLoaded", () => {
             fetchCourses(searchTerm);
         }
     });
+
+    updateNavbarBasedOnAuth()
 });
 
 function fetchTop5Courses() {
-    fetch('http://localhost:8080/rest/api/course/top5')
-        .then(res => res.json()) // ✅ yalnız bir dəfə
-        .then(result => displayCourses(result.data)) // .data içindən çıxar
+    fetch('http://localhost:8080/rest/api/course/public/top5')
+        .then(res => res.json())
+        .then(result => displayCourses(result.data))
         .catch(() => {
             document.getElementById("courseList").innerHTML = "<div class='course-card'>Failed to load top courses.</div>";
         });
 }
 
 function fetchCourses(name) {
-    fetch(`http://localhost:8080/rest/api/course/search?name=${encodeURIComponent(name)}&limit=5`)
-        .then(res => res.json()) // ✅ yalnız bir dəfə
-        .then(result => displayCourses(result.data)) // .data içindən çıxar
+    fetch(`http://localhost:8080/rest/api/course/public/search?name=${encodeURIComponent(name)}&limit=5`)
+        .then(res => res.json())
+        .then(result => displayCourses(result.data))
         .catch(() => {
             document.getElementById("courseList").innerHTML = "<div class='course-card'>Failed to load search results.</div>";
         });
@@ -31,7 +33,6 @@ function fetchCourses(name) {
 
 
 function displayCourses(courses) {
-    debugger;
     const courseList = document.getElementById("courseList");
     if (!courseList) {
         console.error("Error: #courseList element tapılmadı!");
@@ -66,9 +67,7 @@ function displayCourses(courses) {
             <p class="click-count" id="click-count-${course.id}">Clicks: ${course.clickCount}</p>
         `;
 
-        // ✅ CLICK EVENT
         courseCard.addEventListener("click", () => {
-            debugger;
             fetch(`http://localhost:8080/rest/api/course/${course.id}/increaseClickCount`, {
                 method: "PUT"
             })
@@ -77,7 +76,6 @@ function displayCourses(courses) {
                         throw new Error("Click count artırılmadı");
                     }
 
-                    // ✅ Click sayı dərhal artırılsın
                     const countElement = document.getElementById(`click-count-${course.id}`);
                     if (countElement) {
                         const current = parseInt(countElement.textContent.replace("Clicks: ", ""));
@@ -91,4 +89,21 @@ function displayCourses(courses) {
 
         courseList.appendChild(courseCard);
     });
+}
+
+function updateNavbarBasedOnAuth() {
+    const token = localStorage.getItem("access_token");
+    const authLink = document.getElementById("authLink");
+
+    if (token) {
+        authLink.innerHTML = `
+            <a href="/profile.html">
+                <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" 
+                     alt="Profile" 
+                     style="width:32px; height:32px; border-radius:50%;">
+            </a>
+        `;
+    } else {
+        authLink.innerHTML = `<a href="/sign_up.html">Sign Up / Sign In</a>`;
+    }
 }

@@ -12,6 +12,7 @@ async function fetchWithToken(url, options = {}) {
     });
 
     if (response.status === 401 || response.status === 403) {
+
         const refreshResponse = await fetch("/public/refresh_token", {
             method: "POST",
             headers: {
@@ -57,7 +58,8 @@ async function fetchWithToken(url, options = {}) {
 
     try {
         return await response.json();
-    } catch (e) {
+    }
+    catch (e) {
         return null;
     }
 }
@@ -66,5 +68,6 @@ async function fetchWithToken(url, options = {}) {
 function logout() {
     localStorage.removeItem("access_token");
     localStorage.removeItem("refresh_token");
+    localStorage.removeItem("email_verified");
     window.location.href = "/sign_in.html";
 }

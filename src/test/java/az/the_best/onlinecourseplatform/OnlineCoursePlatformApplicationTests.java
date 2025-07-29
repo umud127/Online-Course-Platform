@@ -1,6 +1,6 @@
 package az.the_best.onlinecourseplatform;
 
-import az.the_best.onlinecourseplatform.dto.DTOCourse;
+import az.the_best.onlinecourseplatform.dto.response.DTOCourse;
 import az.the_best.onlinecourseplatform.entities.BaseEntity;
 import az.the_best.onlinecourseplatform.service.impl.RestCourseServiceIMPL;
 import az.the_best.onlinecourseplatform.starter.OnlineCoursePlatformApplication;

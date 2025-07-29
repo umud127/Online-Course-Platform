@@ -1,6 +1,6 @@
 package az.the_best.onlinecourseplatform.security;
 
-import az.the_best.onlinecourseplatform.repo.RestCourseRepo;
+import az.the_best.onlinecourseplatform.repo.course.RestCourseRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

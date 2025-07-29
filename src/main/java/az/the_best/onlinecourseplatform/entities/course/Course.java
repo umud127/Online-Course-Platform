@@ -34,16 +34,17 @@ public class Course {
     private BigInteger clickCount = BigInteger.valueOf(0);
 
 
-    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
-    private List<Comment> comment;
-
     @ManyToMany(mappedBy = "enrolledCourses")
     private List<Student> enrolledStudent;
-
-    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
-    private List<Submission> submission;
 
     @ManyToOne
     @JoinColumn(name = "teacher_id")
     private Teacher teacher;
+
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+    private List<Chapter> chapters;
+
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+    private List<Enrollment> enrollments;
+
 }

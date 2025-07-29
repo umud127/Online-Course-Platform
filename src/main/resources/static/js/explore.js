@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function fetchTop5Courses() {
-    fetch('http://localhost:8080/rest/api/course/public/top5')
+    fetch('http://localhost:8080/course/top5')
         .then(res => res.json())
         .then(result => displayCourses(result.data))
         .catch(() => {
@@ -23,14 +23,13 @@ function fetchTop5Courses() {
 }
 
 function fetchCourses(name) {
-    fetch(`http://localhost:8080/rest/api/course/public/search?name=${encodeURIComponent(name)}&limit=5`)
+    fetch(`http://localhost:8080/course/search?name=${encodeURIComponent(name)}&limit=5`)
         .then(res => res.json())
         .then(result => displayCourses(result.data))
         .catch(() => {
             document.getElementById("courseList").innerHTML = "<div class='course-card'>Failed to load search results.</div>";
         });
 }
-
 
 function displayCourses(courses) {
     const courseList = document.getElementById("courseList");
@@ -68,7 +67,7 @@ function displayCourses(courses) {
         `;
 
         courseCard.addEventListener("click", () => {
-            fetch(`http://localhost:8080/rest/api/course/${course.id}/increaseClickCount`, {
+            fetch(`http://localhost:8080/course/${course.id}/increaseClickCount`, {
                 method: "PUT"
             })
                 .then(response => {

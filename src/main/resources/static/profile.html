@@ -69,15 +69,33 @@
 
 
     <section id="teacherInfo" style="display:none;">
+      
       <h2>Teacher Info</h2>
+
       <div id="beATeacherSection">
         <p>You are not a teacher yet.</p>
         <button onclick="becomeTeacher()">Be a Teacher</button>
       </div>
+
       <div id="teacherPanelSection" style="display:none;">
         <p>Welcome to your teacher panel!</p>
         <!-- Teacher panel content -->
       </div>
+
+      <div id="waitingMsg" style="display: none;">
+        <p>Teacher request already sent. Please wait for admin approval.</p>
+      </div>
+
+      <div id="teacherContent" style="display:none;">
+        <p>Welcome to your teacher dashboard!</p>
+
+        <ul id="myCoursesList"></ul>
+        <p id="noCoursesMsg" style="display:none;">You have no courses.</p>
+
+        <button onclick="goToAddCourse()">Add Course</button>
+
+      </div>
+
     </section>
 
 

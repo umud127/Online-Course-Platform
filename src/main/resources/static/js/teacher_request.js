@@ -1,26 +1,56 @@
-document.getElementById("teacherRequestForm").addEventListener("submit", async function (e) {
-    e.preventDefault();
+document.addEventListener("DOMContentLoaded", () => {
+    const form = document.getElementById("teacherRequestForm");
+    const responseMessage = document.getElementById("responseMessage");
 
-    const form = new FormData();
-    form.append("photo", document.getElementById("photo").files[0]);
-    form.append("description", document.getElementById("description").value);
-    form.append("message", document.getElementById("message").value);
-    form.append("topics", document.getElementById("topics").value);
+    form.addEventListener("submit", async (e) => {
+        e.preventDefault();
 
-    try {
-        const response = await fetchWithToken("http://localhost:8080/teacher/request", {
-            method: "POST",
-            body: form
-        });
+        const photoInput = document.getElementById("photo");
+        const description = document.getElementById("description").value.trim();
+        const message = document.getElementById("message").value.trim();
+        const topics = document.getElementById("topics").value.trim();
 
-        const result = await response.json();
+        // Tokeni localStorage-dən götür
+        const token = localStorage.getItem("access_token");
 
-        if (result.result) {
-            document.getElementById("responseMessage").classList.remove("hidden");
-        } else {
-            alert("Xəta baş verdi: " + result.errorMessage.message);
+        if (!token) {
+            alert("Zəhmət olmasa əvvəlcə daxil olun!");
+            return;
         }
-    } catch (error) {
-        console.error("Request error:", error);
-    }
+
+        if (photoInput.files.length === 0) {
+            alert("Zəhmət olmasa şəkil seçin.");
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append("description", description);
+        formData.append("messageToAdmin", message);
+        formData.append("subjects", topics);
+        formData.append("file", photoInput.files[0]); // Backend tərəfdə `@RequestParam("file")` adı ilə gəlir
+
+        try {
+            const response = await fetch("http://localhost:8080/teacher_request/request", {
+                method: "POST",
+                headers: {
+                    "Authorization": "Bearer " + token
+                },
+                body: formData
+            });
+
+            if (response.ok) {
+                form.reset();
+                responseMessage.classList.remove("hidden");
+                responseMessage.textContent = "Müraciətiniz uğurla göndərildi! Təşəkkür edirik.";
+                responseMessage.style.color = "green";
+            } else if (response.status === 400 || response.status === 401) {
+                alert("Zəhmət olmasa hesabınıza daxil olun və ya düzgün məlumat verin.");
+            } else {
+                alert("Naməlum xəta baş verdi.");
+            }
+        } catch (error) {
+            console.error("Xəta baş verdi:", error);
+            alert("Şəbəkə xətası! İnternet bağlantınızı yoxlayın.");
+        }
+    });
 });

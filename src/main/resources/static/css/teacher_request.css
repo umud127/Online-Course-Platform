@@ -1,45 +1,69 @@
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f0f2f5;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(to right, #e0eafc, #cfdef3);
     margin: 0;
-    padding: 20px;
+    padding: 40px 20px;
 }
 
 .request-container {
-    max-width: 600px;
+    max-width: 700px;
     margin: auto;
-    background: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    background: #ffffff;
+    padding: 30px 40px;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 0.6s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 .request-container h2 {
     text-align: center;
     color: #3f37c9;
+    margin-bottom: 25px;
+    font-size: 28px;
 }
 
 form {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 20px;
 }
 
-input, textarea {
-    padding: 10px;
+label {
+    font-weight: bold;
+    color: #333;
+}
+
+input[type="file"],
+input[type="text"],
+textarea {
+    padding: 12px;
     border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
+    border-radius: 8px;
+    font-size: 15px;
+    transition: border 0.3s ease;
+}
+
+input[type="file"]:hover,
+input[type="text"]:hover,
+textarea:hover {
+    border-color: #3f37c9;
 }
 
 button {
-    padding: 12px;
+    padding: 14px;
     background-color: #3f37c9;
-    color: white;
+    color: #ffffff;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     font-size: 16px;
+    font-weight: 600;
     cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
 button:hover {
@@ -51,6 +75,7 @@ button:hover {
     text-align: center;
     font-weight: bold;
     color: green;
+    font-size: 18px;
 }
 
 .hidden {

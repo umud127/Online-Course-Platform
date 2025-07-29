@@ -2,7 +2,7 @@ package az.the_best.onlinecourseplatform.entities.roles;
 
 import az.the_best.onlinecourseplatform.entities.course.Comment;
 import az.the_best.onlinecourseplatform.entities.course.Course;
-import az.the_best.onlinecourseplatform.entities.course.Submission;
+import az.the_best.onlinecourseplatform.entities.course.Enrollment;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,16 +26,12 @@ public class Student {
     private User user;
 
     @ManyToMany
-    @JoinTable(
-            name = "enrollments",
-            joinColumns = @JoinColumn(name = "student_id"),
-            inverseJoinColumns = @JoinColumn(name = "course_id")
-    )
     private List<Course> enrolledCourses;
 
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
     private List<Comment> comment;
 
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
-    private List<Submission> submission;
+    private List<Enrollment> enrollments;
+
 }

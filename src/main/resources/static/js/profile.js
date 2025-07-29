@@ -94,7 +94,7 @@
     async function becomeTeacher() {
         try {
             const data = await fetchWithToken("http://localhost:8080/user/me");
-            const user = data.data || data; // Sənin cavab formatına görə data.data ola bilər
+            const user = data.data || data;
 
             if (user.role === "TEACHER" || user.role === "ROLE_TEACHER") {
                 // Əgər müəllimsə, teacher panel göstər
@@ -147,25 +147,61 @@
 
     async function checkIfUserIsTeacher() {
         try {
-            const response = await fetchWithToken("http://localhost:8080/user/me");
+            const response = await fetchWithToken("http://localhost:8080/user/checkTeacherStatus", {
+                method: "GET"
+            });
 
-            const user = response.data;
-            if (!user) {
-                console.error("User data is boş və ya undefined:", response);
-                return;
-            }
+            const status = response.data; // "Teacher", "Requested", ya da "User"
 
-            const beATeacherSection = document.getElementById("beATeacherSection");
-            const teacherPanelSection = document.getElementById("teacherPanelSection");
+            const beTeacherBtn = document.getElementById("beATeacherSection");
+            const waitingMsg = document.getElementById("waitingMsg");
+            const teacherContent = document.getElementById("teacherContent");
 
-            if (user.role === "TEACHER") {
-                beATeacherSection.style.display = "none";
-                teacherPanelSection.style.display = "block";
-            } else {
-                beATeacherSection.style.display = "block";
-                teacherPanelSection.style.display = "none";
+            // Hamısını gizlət
+            if (beTeacherBtn) beTeacherBtn.style.display = "none";
+            if (waitingMsg) waitingMsg.style.display = "none";
+            if (teacherContent) teacherContent.style.display = "none";
+
+            if (status === "Teacher") {
+                teacherContent.style.display = "block";
+                await loadTeacherCourses();
+            } else if (status === "Requested") {
+                waitingMsg.style.display = "block";
+            } else if (status === "User") {
+                beTeacherBtn.style.display = "inline-block";
             }
         } catch (error) {
-            console.error("Xəta:", error);
+            console.error("Teacher status yoxlanarkən xəta:", error);
         }
+    }
+
+    async function loadTeacherCourses() {
+        try {
+            const response = await fetchWithToken("http://localhost:8080/teacher/myCourses");
+            const courses = response.data;
+
+            const courseList = document.getElementById("myCoursesList");
+            const noCoursesMsg = document.getElementById("noCoursesMsg");
+
+            courseList.innerHTML = "";
+
+            if (!courses || courses.length === 0) {
+                noCoursesMsg.style.display = "block";
+            } else {
+                noCoursesMsg.style.display = "none";
+
+                courses.forEach(course => {
+                    const li = document.createElement("li");
+                    li.textContent = course.name;
+                    courseList.appendChild(li);
+                });
+            }
+
+        } catch (err) {
+            console.error("Error loading teacher's courses:", err);
+        }
+    }
+
+    function goToAddCourse() {
+        window.location.href = "/course_create.html";
     }

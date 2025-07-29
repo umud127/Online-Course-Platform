@@ -10,14 +10,19 @@ public enum MessageType {
     USER_NOT_FOUND("1001","User Was Not Found"),
     INVALID_PASSWORD("1002","Invalid Password"),
 
+    //TEACHER
+    TEACHER_NOT_FOUND("2000","Teacher Was Not Found"),
+    COURSE_NOT_FOUND("2001","Course Was Not Found"),
+
     //SECURITY
-    INVALID_REQUEST("2000","Invalid Request"),
-    INVALID_TOKEN("2001","Invalid Token"),
-    INVALID_OTP("2002","Invalid OTP"),
-    UNAUTHORIZED("2003","Unauthorized"),
+    INVALID_REQUEST("3000","Invalid Request"),
+    INVALID_TOKEN("3001","Invalid Token"),
+    INVALID_OTP("3002","Invalid OTP"),
+    UNAUTHORIZED("3003","Unauthorized"),
 
     //OTHER
     SERVER_ERROR("4000","Server Error"),
+    INTERNAL_SERVER_ERROR("4001","Internal Server Error"),
     GENERAL_EXCEPTION("9999","UNKNOWN ERROR"),
 ;
 

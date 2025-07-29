@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Course</title>
+    <link rel="stylesheet" href="/css/course_create.css">
+</head>
+<body>
+
+<div class="container">
+    <h1>Create New Course</h1>
+
+    <form id="courseForm">
+        <label for="courseName">Course Name</label>
+        <input type="text" id="courseName" placeholder="Course Name" required>
+
+        <label for="courseDescription">Course Description</label>
+        <textarea id="courseDescription" placeholder="Course Description" rows="5" required></textarea>
+
+        <label for="coverPhoto">Cover Photo</label>
+        <input type="file" id="coverPhoto" accept="image/*" required>
+
+        <div id="chaptersContainer"></div>
+
+        <button type="button" onclick="addChapter()">+ Add Chapter</button>
+        <button type="submit">📤 Submit Course</button>
+    </form>
+
+</div>
+<script src="/js/course_create.js"></script>
+<script src="/js/auth.js"></script>
+</body>
+</html>

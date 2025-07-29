@@ -1,7 +1,7 @@
 package az.the_best.onlinecourseplatform.config;
 
 import az.the_best.onlinecourseplatform.entities.roles.User;
-import az.the_best.onlinecourseplatform.repo.RestUserRepo;
+import az.the_best.onlinecourseplatform.repo.role.RestUserRepo;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;

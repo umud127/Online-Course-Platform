@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Response</title>
+    <link rel="stylesheet" href="/css/admin_response.css">
+</head>
+<body>
+<div class="admin-container">
+    <h2>Teacher Requests</h2>
+    <div id="requests-container"></div>
+
+    <div class="pagination" id="pagination-controls"></div>
+</div>
+
+<!-- Modal for Reject -->
+<div id="rejectModal" class="modal hidden">
+    <div class="modal-content">
+        <h3>Reject Reason</h3>
+        <textarea id="rejectMessage" placeholder="Write a message to the teacher..."></textarea>
+        <button id="sendRejectBtn">Send Message</button>
+        <button id="closeModal">Cancel</button>
+    </div>
+</div>
+
+<script src="/js/auth.js"></script>
+<script src="/js/admin_response.js"></script>
+</body>
+</html>

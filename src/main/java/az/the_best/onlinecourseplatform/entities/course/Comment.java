@@ -21,9 +21,8 @@ public class Comment {
     @Column(name = "text")
     private String text;
 
-    @ManyToOne
-    @JoinColumn(name = "course")
-    private Course course;
+    @Column(name = "video_id")
+    private Long video;
 
     @ManyToOne
     @JoinColumn(name = "student")

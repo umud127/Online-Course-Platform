@@ -1,21 +1,29 @@
 package az.the_best.onlinecourseplatform.service.impl;
 
-import az.the_best.onlinecourseplatform.dto.DTOCourse;
-import az.the_best.onlinecourseplatform.dto.IU.DTOCourseIU;
+import az.the_best.onlinecourseplatform.dto.iu.DTOChapterIU;
+import az.the_best.onlinecourseplatform.dto.iu.DTOVideoIU;
+import az.the_best.onlinecourseplatform.dto.response.DTOCourse;
+import az.the_best.onlinecourseplatform.dto.iu.DTOCourseIU;
 import az.the_best.onlinecourseplatform.entities.BaseEntity;
+import az.the_best.onlinecourseplatform.entities.course.Chapter;
 import az.the_best.onlinecourseplatform.entities.course.Course;
+import az.the_best.onlinecourseplatform.entities.course.Video;
 import az.the_best.onlinecourseplatform.entities.roles.Teacher;
 import az.the_best.onlinecourseplatform.entities.roles.User;
 import az.the_best.onlinecourseplatform.exception.BaseException;
 import az.the_best.onlinecourseplatform.exception.ErrorMessage;
 import az.the_best.onlinecourseplatform.exception.MessageType;
-import az.the_best.onlinecourseplatform.repo.RestCourseRepo;
-import az.the_best.onlinecourseplatform.repo.RestTeacherRepo;
-import az.the_best.onlinecourseplatform.repo.RestUserRepo;
-import az.the_best.onlinecourseplatform.service.IRestCourseService;
+import az.the_best.onlinecourseplatform.jwt.JWTService;
+import az.the_best.onlinecourseplatform.repo.course.RestCourseRepo;
+import az.the_best.onlinecourseplatform.repo.role.RestTeacherRepo;
+import az.the_best.onlinecourseplatform.repo.role.RestUserRepo;
+import az.the_best.onlinecourseplatform.service.interfaces.IRestCourseService;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
@@ -26,47 +34,88 @@ import static az.the_best.onlinecourseplatform.entities.BaseEntity.notOk;
 import static az.the_best.onlinecourseplatform.entities.BaseEntity.ok;
 
 @Service
+@RequiredArgsConstructor
 public class RestCourseServiceIMPL implements IRestCourseService {
 
-    @Autowired
-    RestCourseRepo restCourseRepo;
+    private final RestCourseRepo restCourseRepo;
 
-    @Autowired
-    RestUserRepo userRepo;
+    private final RestUserRepo userRepo;
 
-    @Autowired
-    private RestTeacherRepo teacherRepo;
+    private final RestTeacherRepo teacherRepo;
 
-    @Autowired
-    CloudinaryServiceIMPL cloudinaryServiceIMPL;
+    private final CloudinaryServiceIMPL cloudinaryServiceIMPL;
+
+    private final JWTService jwtService;
 
     @Override
-    public BaseEntity<DTOCourse> addCourse(DTOCourseIU dtoCourseIU, MultipartFile file, Long userId) {
-        Course course = new Course();
-        BeanUtils.copyProperties(dtoCourseIU, course);
+    public BaseEntity<DTOCourse> addCourse(
+            DTOCourseIU dtoCourseIU,
+            MultipartFile coverPhoto,
+            List<MultipartFile> videoFiles,
+            String token
+    ) {
+        Long userId = jwtService.extractId(token);
 
+        if (userId == null) {
+            return BaseEntity.notOk(MessageType.INVALID_TOKEN, "null");
+        }
 
         Optional<User> optionalDbUser = userRepo.findById(userId);
-        User dbUser;
-        if (optionalDbUser.isPresent()) {
-            dbUser = optionalDbUser.get();
+        if (optionalDbUser.isEmpty()) {
+            return BaseEntity.notOk(MessageType.USER_NOT_FOUND, userId.toString());
         }
-
 
         Optional<Teacher> optionalUser = teacherRepo.findByUserId(userId);
-        Teacher teacher;
-        if (optionalUser.isPresent()) {
-            teacher = optionalUser.get();
-        } else {
-            throw new BaseException(new ErrorMessage(MessageType.NO_DATA_EXIST,userId.toString()));
-        }//duzelis lazimdir random xeta atmisam
-
-        course.setTeacher(teacher);
-
-        if(file != null) {
-            String imageUrl = cloudinaryServiceIMPL.uploadImage(file);
-            course.setCoverPhoto(imageUrl);
+        if (optionalUser.isEmpty()) {
+            return BaseEntity.notOk(MessageType.TEACHER_NOT_FOUND, null);
         }
+
+        Teacher teacher = optionalUser.get();
+
+        Course course = new Course();
+        course.setName(dtoCourseIU.getName());
+        course.setDescription(dtoCourseIU.getDescription());
+
+        String coverPhotoUrl = cloudinaryServiceIMPL.uploadImage(coverPhoto);
+        course.setCoverPhoto(coverPhotoUrl);
+
+        List<Chapter> chapters = new ArrayList<>();
+        List<DTOChapterIU> chaptersIU = dtoCourseIU.getChapters();
+
+        int videoIndex = 0;
+
+        for (DTOChapterIU chapterIU : chaptersIU) {
+            Chapter chapter = new Chapter();
+            chapter.setTitle(chapterIU.getTitle());
+            chapter.setOrder(chapterIU.getOrder());
+            chapter.setCourse(course);
+
+            List<Video> videos = new ArrayList<>();
+            List<DTOVideoIU> dbVideos = chapterIU.getVideos();
+
+            for (DTOVideoIU videoIU : dbVideos) {
+                Video video = new Video();
+                video.setTitle(videoIU.getTitle());
+                video.setOrder(videoIU.getOrder());
+
+                if (videoIndex < videoFiles.size()) {
+                    MultipartFile file = videoFiles.get(videoIndex++);
+                    String videoUrl = cloudinaryServiceIMPL.uploadVideo(file);
+                    video.setUrl(videoUrl);
+                } else {
+                    return BaseEntity.notOk(MessageType.INTERNAL_SERVER_ERROR, "Video file mismatch");
+                }
+
+                video.setChapter(chapter);
+                videos.add(video);
+            }
+
+            chapter.setVideos(videos);
+            chapters.add(chapter);
+        }
+
+        course.setChapters(chapters);
+        course.setTeacher(teacher);
 
         Course savedCourse = restCourseRepo.save(course);
 
@@ -160,7 +209,7 @@ public class RestCourseServiceIMPL implements IRestCourseService {
     }
 
     @Override
-    public void increaseClickCount(Long id) {
-        restCourseRepo.increaseClickCount(id);
+    public void increaseClickCount(Long courseId) {
+        restCourseRepo.increaseClickCount(courseId);
     }
 }

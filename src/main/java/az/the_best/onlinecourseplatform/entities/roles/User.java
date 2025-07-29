@@ -1,5 +1,6 @@
 package az.the_best.onlinecourseplatform.entities.roles;
 
+import az.the_best.onlinecourseplatform.entities.roles.request.Teacher_Request;
 import az.the_best.onlinecourseplatform.security.RoleName;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -42,7 +43,9 @@ public class User implements UserDetails {
     @Enumerated
     private RoleName role;
 
-
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "teacher_request_id",nullable = true)
+    private Teacher_Request teacherRequest = null;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

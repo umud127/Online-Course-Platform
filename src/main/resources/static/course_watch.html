@@ -1,27 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Course Watch</title>
     <link rel="stylesheet" href="/css/course_watch.css">
 </head>
 <body>
 
 <nav class="navbar">
-    <div class="logo">Bestemy</div>
+    <div style="display: flex; align-items: center;">
+        <button class="toggle-btn" onclick="toggleSidebar()">☰</button>
+        <div class="logo">Bestemy</div>
+    </div>
     <div id="authLink"></div>
 </nav>
 
-<button class="toggle-sidebar" id="toggleBtn" onclick="toggleSidebar()">☰</button>
-
 <div class="container">
-    <div class="sidebar open" id="sidebar">
+    <div id="sidebar" class="sidebar">
         <h3>Chapters</h3>
         <div id="chapterList"></div>
     </div>
 
     <div class="main">
-        <h1 id="courseTitle"></h1>
+        <h1 id="courseTitle">Loading...</h1>
         <p id="courseDescription"></p>
         <div class="video-container">
             <video id="videoPlayer" controls>
@@ -31,45 +33,7 @@
         </div>
     </div>
 </div>
+</body>
 
 <script src="/js/course_watch.js"></script>
-</body>
 </html>
-
-<!--<!DOCTYPE html>-->
-<!--<html lang="en">-->
-<!--<head>-->
-<!--    <meta charset="UTF-8" />-->
-<!--    <title>Course Watch</title>-->
-<!--    <link rel="stylesheet" href="/css/course_watch.css" />-->
-<!--</head>-->
-<!--<body>-->
-
-<!--<nav class="navbar">-->
-<!--    <div class="logo">Bestemy</div>-->
-<!--    <div id="authLink"></div>-->
-<!--</nav>-->
-
-<!--&lt;!&ndash; Sidebar + toggle düymə birlikdə container &ndash;&gt;-->
-<!--<div class="sidebar-container closed" id="sidebarContainer">-->
-<!--    <button id="toggleBtn" class="toggle-btn" aria-label="Toggle chapters menu">☰</button>-->
-<!--    <div class="sidebar-content">-->
-<!--        <h3>Chapters</h3>-->
-<!--        <div id="chapterList"></div>-->
-<!--    </div>-->
-<!--</div>-->
-
-<!--<main class="main-content">-->
-<!--    <h1 id="courseTitle"></h1>-->
-<!--    <p id="courseDescription"></p>-->
-<!--    <div class="video-container">-->
-<!--        <video id="videoPlayer" controls>-->
-<!--            <source src="" type="video/mp4" />-->
-<!--            Your browser does not support the video tag.-->
-<!--        </video>-->
-<!--    </div>-->
-<!--</main>-->
-
-<!--<script src="/js/course_watch.js"></script>-->
-<!--</body>-->
-<!--</html>-->

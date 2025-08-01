@@ -67,23 +67,7 @@ function displayCourses(courses) {
         `;
 
         courseCard.addEventListener("click", () => {
-            fetch(`http://localhost:8080/course/${course.id}/increaseClickCount`, {
-                method: "PUT"
-            })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error("Click count artırılmadı");
-                    }
-
-                    const countElement = document.getElementById(`click-count-${course.id}`);
-                    if (countElement) {
-                        const current = parseInt(countElement.textContent.replace("Clicks: ", ""));
-                        countElement.textContent = `Clicks: ${current + 1}`;
-                    }
-                })
-                .catch(error => {
-                    console.error("Click artırılarkən xəta:", error);
-                });
+            window.location.href = `/course_info.html?courseId=${course.id}`;
         });
 
         courseList.appendChild(courseCard);

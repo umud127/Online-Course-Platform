@@ -1,0 +1,141 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    background-color: #f8f9fa;
+}
+
+/* NAVBAR */
+.navbar {
+    background-color: #343a40;
+    color: white;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.navbar-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1200px;
+    align-items: center;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-links li a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.nav-links li a:hover {
+    color: #28a745;
+}
+
+/* MAIN */
+.course-container {
+    max-width: 900px;
+    background: white;
+    margin: 40px auto;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.cover {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.course-title {
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.course-desc {
+    font-size: 18px;
+    margin-bottom: 15px;
+    color: #444;
+}
+
+.click-text {
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+.btn-enroll {
+    background-color: #28a745;
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s ease;
+}
+
+.btn-enroll:hover {
+    background-color: #218838;
+}
+
+.enroll-message {
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.hidden {
+    display: none;
+}
+
+/* Chapters */
+.chapters-container {
+    margin-top: 40px;
+}
+
+.chapter {
+    margin-bottom: 20px;
+    border-left: 4px solid #28a745;
+    padding-left: 12px;
+}
+
+.chapter-title {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.video-list {
+    list-style: disc inside;
+    margin-top: 8px;
+    margin-left: 20px;
+}
+
+.video-list li {
+    margin-bottom: 6px;
+}
+
+/* FOOTER */
+.footer {
+    background-color: #343a40;
+    color: white;
+    padding: 20px 0;
+    text-align: center;
+    margin-top: 50px;
+}

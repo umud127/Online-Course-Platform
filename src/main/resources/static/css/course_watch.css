@@ -1,120 +1,254 @@
-* {
-    box-sizing: border-box;
-}
-
 body {
     margin: 0;
-    font-family: 'Segoe UI', sans-serif;
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+}
+
+.navbar {
     display: flex;
-    min-height: 100vh;
-    background-color: #f5f6fa;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #4f46e5;
+    color: white;
+    padding: 1rem 2rem;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.toggle-sidebar {
+    position: absolute;
+    top: 70px;
+    left: 10px;
+    background-color: #4f46e5;
+    color: white;
+    border: none;
+    font-size: 22px;
+    padding: 8px 14px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: opacity 0.3s ease;
+}
+
+.container {
+    display: flex;
+    height: calc(100vh - 64px);
 }
 
 .sidebar {
-    width: 320px;
-    background-color: #2f3640;
-    color: white;
+    width: 300px;
+    background-color: #ffffff;
+    border-right: 1px solid #ddd;
+    padding: 1rem;
     overflow-y: auto;
-    padding: 20px;
-    transition: 0.3s;
-}
-
-.chapter {
-    margin-bottom: 15px;
-}
-
-.chapter-title {
-    cursor: pointer;
-    background: #353b48;
-    padding: 12px;
-    border-radius: 8px;
-    position: relative;
-    transition: background 0.2s;
-}
-
-.chapter-title:hover {
-    background: #40739e;
-}
-
-.chapter-title::after {
-    content: "▼";
-    position: absolute;
-    right: 15px;
     transition: transform 0.3s ease;
 }
 
-.chapter.open .chapter-title::after {
-    transform: rotate(180deg);
+.sidebar.closed {
+    transform: translateX(-100%);
 }
 
-.video-list {
-    display: none;
-    margin-top: 10px;
-    padding-left: 10px;
+.sidebar h3 {
+    margin-bottom: 15px;
 }
 
-.chapter.open .video-list {
+.chapter-item {
+    margin-bottom: 20px;
+}
+
+.chapter-item strong {
     display: block;
+    margin-bottom: 5px;
+    color: #4f46e5;
 }
 
-.video-item {
-    padding: 8px 12px;
-    border-radius: 6px;
-    background: #718093;
-    margin-bottom: 6px;
+.chapter-item ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.chapter-item li {
+    padding: 8px;
+    border-bottom: 1px solid #e0e0e0;
     cursor: pointer;
-    font-size: 15px;
-    transition: background 0.2s;
+    transition: background-color 0.2s;
 }
 
-.video-item:hover {
-    background: #dcdde1;
-    color: #2f3640;
+.chapter-item li:hover {
+    background-color: #f0f0f0;
 }
 
-.main-content {
-    flex: 1;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+.main {
+    flex-grow: 1;
+    padding: 2rem;
+    overflow-y: auto;
 }
 
-video {
+.video-container {
+    margin-top: 20px;
+}
+
+#videoPlayer {
     width: 100%;
-    max-width: 1000px;
-    height: auto;
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    height: 500px;
+    border-radius: 8px;
 }
 
-@media (max-width: 768px) {
-    body {
-        flex-direction: column;
-    }
-
-    .sidebar {
-        width: 100%;
-        height: auto;
-    }
-
-    .main-content {
-        padding: 10px;
-    }
+.sidebar.open ~ .toggle-sidebar {
+    opacity: 0;
+    pointer-events: none;
 }
 
-.fade-in {
-    animation: fade 0.5s ease-in-out;
-}
+ Reset və əsas
 
-@keyframes fade {
-    from {
-        opacity: 0;
-        transform: scale(0.95);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
+/** {*/
+/*    box-sizing: border-box;*/
+/*}*/
+
+/*body {*/
+/*    margin: 0;*/
+/*    font-family: Arial, sans-serif;*/
+/*    background-color: #f5f5f5;*/
+/*}*/
+
+/*!* Navbar *!*/
+
+/*.navbar {*/
+/*    display: flex;*/
+/*    justify-content: space-between;*/
+/*    align-items: center;*/
+/*    background-color: #4f46e5;*/
+/*    color: white;*/
+/*    padding: 1rem 2rem;*/
+/*    height: 64px;*/
+/*}*/
+
+/*.logo {*/
+/*    font-size: 24px;*/
+/*    font-weight: bold;*/
+/*}*/
+
+/*!* Sidebar + toggle container *!*/
+
+/*.sidebar-container {*/
+/*    position: fixed;*/
+/*    top: 64px; !* Navbarın altı *!*/
+/*    left: 0;*/
+/*    height: calc(100vh - 64px);*/
+/*    background-color: #f9f9ff; !* Yumşaq açıq rəng *!*/
+/*    display: flex;*/
+/*    align-items: flex-start;*/
+/*    gap: 10px;*/
+/*    padding: 1rem;*/
+/*    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);*/
+/*    transition: transform 0.3s ease;*/
+/*    z-index: 20;*/
+/*}*/
+
+/*!* Bağlandıqda soldan gizlənir *!*/
+
+/*.sidebar-container.closed {*/
+/*    transform: translateX(-260px);*/
+/*}*/
+
+/*!* Toggle düymə *!*/
+
+/*.toggle-btn {*/
+/*    font-size: 28px;*/
+/*    background-color: #4f46e5;*/
+/*    color: white;*/
+/*    border: none;*/
+/*    border-radius: 6px;*/
+/*    width: 48px;*/
+/*    height: 48px;*/
+/*    cursor: pointer;*/
+/*    user-select: none;*/
+/*    transition: background-color 0.2s;*/
+/*}*/
+
+/*.toggle-btn:hover {*/
+/*    background-color: #3730a3;*/
+/*}*/
+
+/*!* Sidebar içərisi *!*/
+
+/*.sidebar-content {*/
+/*    width: 240px;*/
+/*    overflow-y: auto;*/
+/*    max-height: 100%;*/
+/*}*/
+
+/*!* Chapters başlığı *!*/
+
+/*.sidebar-content h3 {*/
+/*    margin-top: 0;*/
+/*    margin-bottom: 1rem;*/
+/*    color: #4f46e5;*/
+/*    font-weight: 700;*/
+/*    font-size: 22px;*/
+/*}*/
+
+/*!* Chapter və videolar *!*/
+
+/*.chapter-item {*/
+/*    margin-bottom: 18px;*/
+/*}*/
+
+/*.chapter-item strong {*/
+/*    display: block;*/
+/*    margin-bottom: 6px;*/
+/*    color: #3730a3;*/
+/*    font-weight: 600;*/
+/*}*/
+
+/*.chapter-item ul {*/
+/*    list-style: none;*/
+/*    padding-left: 0;*/
+/*    margin: 0;*/
+/*}*/
+
+/*.chapter-item li {*/
+/*    padding: 8px 12px;*/
+/*    border-radius: 6px;*/
+/*    cursor: pointer;*/
+/*    transition: background-color 0.2s;*/
+/*}*/
+
+/*.chapter-item li:hover {*/
+/*    background-color: #e0e7ff;*/
+/*}*/
+
+/*!* Main content *!*/
+
+/*.main-content {*/
+/*    margin-left: 280px; !* Sidebar genişliyi + aralıq *!*/
+/*    padding: 2rem;*/
+/*    transition: margin-left 0.3s ease;*/
+/*    min-height: calc(100vh - 64px);*/
+/*    background-color: #fff;*/
+/*}*/
+
+/*!* Sidebar gizlənəndə main tam genişlik *!*/
+
+/*.sidebar-container.closed ~ .main-content {*/
+/*    margin-left: 20px;*/
+/*}*/
+
+/*!* Video *!*/
+
+/*.video-container {*/
+/*    margin-top: 20px;*/
+/*    background-color: #fff;*/
+/*    padding: 15px;*/
+/*    border-radius: 10px;*/
+/*    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);*/
+/*}*/
+
+/*#videoPlayer {*/
+/*    width: 100%;*/
+/*    height: 480px;*/
+/*    border-radius: 8px;*/
+/*    background-color: black;*/
+/*}*/

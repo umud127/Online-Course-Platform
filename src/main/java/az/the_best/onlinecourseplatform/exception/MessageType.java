@@ -9,6 +9,7 @@ public enum MessageType {
     NO_DATA_EXIST("1000","Data Was not found"),
     USER_NOT_FOUND("1001","User Was Not Found"),
     INVALID_PASSWORD("1002","Invalid Password"),
+    ALREADY_EXIST("1003","Already Exist"),
 
     //TEACHER
     TEACHER_NOT_FOUND("2000","Teacher Was Not Found"),

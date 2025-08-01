@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Course Info | Bestemy</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+  <!-- Animate.css -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+  <!-- Favicon -->
+  <link rel="icon" href="/favicon-32x32.png" type="image/png">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="/css/course_info.css" />
+</head>
+<body>
+
+<!-- ======= NAVBAR ======= -->
+<nav class="navbar">
+  <div class="navbar-container">
+    <div class="logo">Bestemy</div>
+    <ul class="nav-links">
+      <li><a href="/home.html">Home</a></li>
+      <li><a href="/explore.html">Courses</a></li>
+      <li><a href="/aboutUs.html">About Us</a></li>
+      <li id="authLink"><a href="/sign_up.html">Sign Up / Sign In</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ======= MAIN CONTENT ======= -->
+<div class="container course-container animate__animated animate__fadeIn">
+  <img id="cover" class="cover" alt="Course cover" />
+  <h1 id="name" class="course-title">Loading...</h1>
+  <p id="description" class="course-desc"></p>
+  <p class="click-text"><strong>Click Count:</strong> <span id="clickCount"></span></p>
+
+  <button id="enrollBtn" class="btn-enroll">Enroll Now</button>
+  <p id="enrollMessage" class="hidden enroll-message"></p>
+
+  <div class="chapters-container" id="chaptersContainer">
+    <h2>Chapters</h2>
+    <div id="chaptersList"></div>
+  </div>
+</div>
+
+<!-- ======= FOOTER ======= -->
+<footer class="footer">
+  <div class="container text-center">
+    <p>&copy; 2025 Bestemy. All rights reserved.</p>
+  </div>
+</footer>
+
+<!-- JS -->
+<script src="/js/course_info.js"></script>
+</body>
+</html>

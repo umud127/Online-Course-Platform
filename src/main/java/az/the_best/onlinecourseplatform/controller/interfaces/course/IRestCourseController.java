@@ -18,6 +18,7 @@ public interface IRestCourseController {
 
     BaseEntity<DTOCourse> addCourse(DTOCourseIU dtoCourseIU, MultipartFile coverPhoto, List<MultipartFile> videoFiles, String authHeader);
 
+    BaseEntity<DTOCourse> getCourseById(@PathVariable Long id);
 
     BaseEntity<List<DTOCourse>> getCoursesByName(String name);
 
@@ -29,10 +30,16 @@ public interface IRestCourseController {
             @PathVariable Long id
     );
 
-
     void deleteCourse(Long id);
 
     BaseEntity<List<DTOCourse>> getAllCourses();
 
     void increaseClickCount(Long courseId);
+
+    BaseEntity<String> getToEnroll(Long courseId, String authHeader);
+
+    boolean checkStudentHaveCourse(Long courseId, String authHeader);
+
+    boolean checkTeacherHaveCourse(Long courseId, String authHeader);
+
 }

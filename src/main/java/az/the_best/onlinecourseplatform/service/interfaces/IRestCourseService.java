@@ -34,4 +34,6 @@ public interface IRestCourseService {
     BaseEntity<List<DTOCourse>> getAllCourses();
 
     void increaseClickCount(Long courseId);
+
+    BaseEntity<String> getToEnroll(Long courseId, String token);
 }

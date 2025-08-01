@@ -7,7 +7,9 @@ import az.the_best.onlinecourseplatform.dto.iu.DTOCourseIU;
 import az.the_best.onlinecourseplatform.entities.BaseEntity;
 import az.the_best.onlinecourseplatform.entities.course.Chapter;
 import az.the_best.onlinecourseplatform.entities.course.Course;
+import az.the_best.onlinecourseplatform.entities.course.Enrollment;
 import az.the_best.onlinecourseplatform.entities.course.Video;
+import az.the_best.onlinecourseplatform.entities.roles.Student;
 import az.the_best.onlinecourseplatform.entities.roles.Teacher;
 import az.the_best.onlinecourseplatform.entities.roles.User;
 import az.the_best.onlinecourseplatform.exception.BaseException;
@@ -15,8 +17,11 @@ import az.the_best.onlinecourseplatform.exception.ErrorMessage;
 import az.the_best.onlinecourseplatform.exception.MessageType;
 import az.the_best.onlinecourseplatform.jwt.JWTService;
 import az.the_best.onlinecourseplatform.repo.course.RestCourseRepo;
+import az.the_best.onlinecourseplatform.repo.course.RestEnrollmentRepo;
+import az.the_best.onlinecourseplatform.repo.role.RestStudentRepo;
 import az.the_best.onlinecourseplatform.repo.role.RestTeacherRepo;
 import az.the_best.onlinecourseplatform.repo.role.RestUserRepo;
+import az.the_best.onlinecourseplatform.security.RoleName;
 import az.the_best.onlinecourseplatform.service.interfaces.IRestCourseService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -43,9 +48,15 @@ public class RestCourseServiceIMPL implements IRestCourseService {
 
     private final RestTeacherRepo teacherRepo;
 
+    private final RestStudentRepo studentRepo;
+
+    private final RestEnrollmentRepo enrollmentRepo;
+
+
     private final CloudinaryServiceIMPL cloudinaryServiceIMPL;
 
     private final JWTService jwtService;
+
 
     @Override
     public BaseEntity<DTOCourse> addCourse(
@@ -131,11 +142,30 @@ public class RestCourseServiceIMPL implements IRestCourseService {
         DTOCourse dtoCourse = new DTOCourse();
 
         if(course == null) {
-//            throw new BaseException(new ErrorMessage(MessageType.NO_DATA_EXIST,id.toString()));
             return notOk(MessageType.NO_DATA_EXIST,id.toString());
-        }else{
-            BeanUtils.copyProperties(course, dtoCourse);
         }
+
+        BeanUtils.copyProperties(course, dtoCourse);
+
+        List<DTOChapterIU> chapters = new ArrayList<>();
+
+        for (Chapter chapter : course.getChapters()) {
+            DTOChapterIU dtoChapter = new DTOChapterIU();
+            BeanUtils.copyProperties(chapter, dtoChapter);
+
+            List<DTOVideoIU> videos = new ArrayList<>();
+
+            for (Video video : chapter.getVideos()) {
+                DTOVideoIU dtoVideo = new DTOVideoIU();
+                BeanUtils.copyProperties(video, dtoVideo);
+                videos.add(dtoVideo);
+            }
+
+            dtoChapter.setVideos(videos);
+            chapters.add(dtoChapter);
+        }
+
+        dtoCourse.setChapters(chapters);
 
         return ok(dtoCourse);
     }
@@ -211,5 +241,58 @@ public class RestCourseServiceIMPL implements IRestCourseService {
     @Override
     public void increaseClickCount(Long courseId) {
         restCourseRepo.increaseClickCount(courseId);
+    }
+
+    @Override
+    public BaseEntity<String> getToEnroll(Long courseId, String token) {
+        if (token == null || token.isBlank()) {
+            return BaseEntity.notOk(MessageType.INVALID_TOKEN, "Token is missing or empty");
+        }
+
+        Long userId = jwtService.extractId(token);
+
+        if (userId == null) {
+            return BaseEntity.notOk(MessageType.INVALID_TOKEN, "Token is not correct");
+        }
+
+        Optional<User> dbUser = userRepo.findById(userId);
+        User user;
+
+        if (dbUser.isEmpty()) {
+            return BaseEntity.notOk(MessageType.USER_NOT_FOUND, userId.toString());
+        } else {
+            user = dbUser.get();
+        }
+
+        Enrollment enrollment = new Enrollment();
+
+        Course course = restCourseRepo.findById(courseId).orElse(null);
+
+        if(course == null) {
+            return BaseEntity.notOk(MessageType.NO_DATA_EXIST, courseId.toString());
+        } else {
+            enrollment.setCourse(course);
+        }
+
+        Student student = studentRepo.findByUserId(userId).orElse(null);
+
+        if (student == null) {
+            Student newStudent = new Student();
+
+            newStudent.setUser(user);
+            studentRepo.save(newStudent);
+
+            enrollment.setStudent(newStudent);
+        } else {
+            //check if enrollment exists
+            if (enrollmentRepo.existsByStudentIdAndCourseId(student.getId(), courseId)) {
+                return BaseEntity.notOk(MessageType.ALREADY_EXIST, "You Already Enrolled");
+            }
+            enrollment.setStudent(student);
+        }
+
+
+        enrollmentRepo.save(enrollment);
+        return BaseEntity.ok("Success");
     }
 }

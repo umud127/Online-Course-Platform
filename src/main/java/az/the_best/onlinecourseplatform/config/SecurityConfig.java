@@ -20,7 +20,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
     private final String PUBLIC = "/public/*";
-    private final String COURSE_PUBLIC = "/course/*";
+    private final String COURSE = "/course/**";
     private final String OTP = "/otp/*";
     private final String EMAIL = "/email/*";
     private final String USER = "/user/*";
@@ -54,7 +54,7 @@ public class SecurityConfig {
                                 authorizeRequests.requestMatchers(
                                         PUBLIC, USER, OTP, EMAIL,
                                         TEACHER,
-                                        COURSE_PUBLIC,
+                                        COURSE,
                                         TEACHER_REQUEST,ADMIN_RESPONSE,
 
                                         HTML,CSS,JS,RESOURCE,

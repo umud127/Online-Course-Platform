@@ -4,9 +4,12 @@ import az.the_best.onlinecourseplatform.controller.interfaces.course.IRestCourse
 import az.the_best.onlinecourseplatform.dto.response.DTOCourse;
 import az.the_best.onlinecourseplatform.dto.iu.DTOCourseIU;
 import az.the_best.onlinecourseplatform.entities.BaseEntity;
+import az.the_best.onlinecourseplatform.jwt.JWTService;
+import az.the_best.onlinecourseplatform.security.CourseSecurity;
 import az.the_best.onlinecourseplatform.service.interfaces.IRestCourseService;
 import az.the_best.onlinecourseplatform.validation.NotEmptyMultipart;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
@@ -17,13 +20,13 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "/course")
+@RequiredArgsConstructor
 public class RestCourseControllerIMPL implements IRestCourseController {
 
     private final IRestCourseService courseService;
+    private final JWTService jwtService;
+    private final CourseSecurity courseSecurity;
 
-    public RestCourseControllerIMPL(IRestCourseService courseService) {
-        this.courseService = courseService;
-    }
 
     @PreAuthorize("hasRole('ROLE_TEACHER')")
     @PostMapping(path = "/teacher/add" , consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -34,6 +37,12 @@ public class RestCourseControllerIMPL implements IRestCourseController {
             @RequestPart("videoFiles") List<MultipartFile> videoFiles,
             @RequestHeader("Authorization") String authHeader) {
         return courseService.addCourse(dtoCourseIU, coverPhoto, videoFiles, authHeader.substring(7));
+    }
+
+    @GetMapping(path = "/{id}")
+    @Override
+    public BaseEntity<DTOCourse> getCourseById(@PathVariable(value = "id") Long id) {
+        return courseService.getCourseById(id);
     }
 
     @GetMapping(path = "/search")
@@ -71,9 +80,37 @@ public class RestCourseControllerIMPL implements IRestCourseController {
     }
 
     //limit to this method and protect someone who wants to be famous through this way
-    @PostMapping(path = "/increaseClickCount")
+    @PutMapping(path = "/increaseClickCount/{id}")
     @Override
-    public void increaseClickCount(Long courseId) {
+    public void increaseClickCount(@PathVariable(value = "id") Long courseId) {
         courseService.increaseClickCount(courseId);
+    }
+
+    @PreAuthorize("hasRole('ROLE_STUDENT') or hasRole('ROLE_USER') or hasRole('ROLE_STUDENT')")
+    @PostMapping(path = "/toEnroll/{id}")
+    @Override
+    public BaseEntity<String> getToEnroll(@PathVariable(value = "id") Long courseId, @RequestHeader("Authorization") String authHeader) {
+        return courseService.getToEnroll(courseId, authHeader.substring(7));
+    }
+
+    @GetMapping(path = "/checkStudentHaveCourse/{id}")
+    @Override
+    public boolean checkStudentHaveCourse(@PathVariable(value = "id") Long courseId, @RequestHeader("Authorization") String authHeader) {
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            return false;
+        } else {
+            return courseSecurity.isStudentOfCourse(courseId, jwtService.extractId(authHeader.substring(7)));
+        }
+    }
+
+    @PreAuthorize("hasRole('ROLE_TEACHER')")
+    @GetMapping(path = "/checkTeacherHaveCourse/{id}")
+    @Override
+    public boolean checkTeacherHaveCourse(@PathVariable(value = "id") Long courseId, @RequestHeader("Authorization") String authHeader) {
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            return false;
+        } else {
+            return courseSecurity.isOwnerOfCourse(jwtService.extractId(authHeader.substring(7)), courseId);
+        }
     }
 }
